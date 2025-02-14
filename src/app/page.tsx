@@ -1,10 +1,10 @@
 'use client';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
 	const [hash, setHash] = useState('');
-	const app = (window as any)?.Telegram?.WebApp;
+	const app =
+		typeof window !== 'undefined' ? (window as any)?.Telegram?.WebApp : {};
 
 	useEffect(() => {
 		if (app) {
@@ -27,7 +27,6 @@ export default function Home() {
 			<span>Hash: {hash}</span>
 			<span>State: {state}</span>
 			<span>App: {JSON.stringify(app)}</span>
-		
 		</div>
 	);
 }
