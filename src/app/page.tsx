@@ -5,20 +5,20 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
 	const [hash, setHash] = useState('');
+	const app =
+		typeof window !== 'undefined' ? (window as any).Telegram?.WebApp : {};
 
 	useEffect(() => {
-		const app =
-			typeof window !== 'undefined' ? (window as any).Telegram?.WebApp : {};
 		if (app) {
 			setHash(app.initData);
 		}
-	}, []);
+	}, [app]);
 
-  
+	console.log(hash, 'hash');
 	return (
 		<div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
 			<Script src="https://telegram.org/js/telegram-web-app.js?56"></Script>
-			<span>{hash}</span>
+			<span>Hash: {hash}</span>
 			<main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
 				<Image
 					className="dark:invert"
