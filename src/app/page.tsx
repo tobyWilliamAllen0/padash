@@ -5,15 +5,15 @@ import { useEffect } from 'react';
 
 export default function Home() {
 	useEffect(() => {
-		const app = typeof window !== 'undefined' ? window?.Telegram?.WebApp : {};
+		const app =
+			typeof window !== 'undefined' ? (window as any).Telegram?.WebApp : {};
 		let hash = '';
 		if (app) {
-			hash = app.initData();
+			hash = app.initData;
 		}
 
 		console.log(hash);
 	}, []);
-
 	return (
 		<div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
 			<Script src="https://telegram.org/js/telegram-web-app.js?56"></Script>
