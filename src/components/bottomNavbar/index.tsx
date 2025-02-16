@@ -7,10 +7,10 @@ const BottomNavbar = () => {
 	const pathname = usePathname();
 
 	const navItems = [
-		{ path: '/points', icon: ElementPlus, label: 'امتیازگیری' },
-		{ path: '/friends', icon: People, label: 'دوستان' },
-		{ path: '/tops', icon: Sort, label: 'برترین' },
 		{ path: '/', icon: Home, label: 'خانه' },
+		{ path: '/tops', icon: Sort, label: 'برترین' },
+		{ path: '/friends', icon: People, label: 'دوستان' },
+		{ path: '/points', icon: ElementPlus, label: 'امتیازگیری' },
 	];
 
 	return (

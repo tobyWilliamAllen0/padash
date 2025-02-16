@@ -5,9 +5,7 @@
 
 @font-face {
   font-family: 'Vazir';
-  src: url('/assets/fonts/Vazir/Vazir.woff2') format('woff2'),
-    url('/assets/fonts/Vazir/Vazir.woff') format('woff'),
-    url('/assets/fonts/Vazir/Vazir.ttf') format('truetype');
+  src: url('../../public/assets/fonts/Vazir/Vazirmatn-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -15,9 +13,8 @@
 
 @font-face {
   font-family: 'Vazir';
-  src: url('/assets/fonts/Vazir/Vazir-Bold.woff2') format('woff2'),
-    url('/assets/fonts/Vazir/Vazir-Bold.woff') format('woff'),
-    url('/assets/fonts/Vazir/Vazir-Bold.ttf') format('truetype');
+  src:
+    url('../../public/assets/fonts/Vazir/Vazirmatn-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -25,9 +22,8 @@
 
 @font-face {
   font-family: 'Vazir';
-  src: url('/assets/fonts/Vazir/Vazir-Light.woff2') format('woff2'),
-    url('/assets/fonts/Vazir/Vazir-Light.woff') format('woff'),
-    url('/assets/fonts/Vazir/Vazir-Light.ttf') format('truetype');
+  src:
+    url('../../public/assets/fonts/Vazir/Vazirmatn-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -35,9 +31,8 @@
 
 @font-face {
   font-family: 'Vazir';
-  src: url('/assets/fonts/Vazir/Vazir-Medium.woff2') format('woff2'),
-    url('/assets/fonts/Vazir/Vazir-Medium.woff') format('woff'),
-    url('/assets/fonts/Vazir/Vazir-Medium.ttf') format('truetype');
+  src:
+    url('../../public/assets/fonts/Vazir/Vazirmatn-SemiBold.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
