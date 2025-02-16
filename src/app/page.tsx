@@ -26,7 +26,7 @@ export default function Home() {
 
 	return (
 		<div className="p-4 overflow-hidden">
-			<div className="w-[100%] h-[150px] border-dashed border-2 border-red-500 mt-20 flex items-center justify-center text-4xl">
+			<div className="w-[100%] h-[150px] border-dashed border-2 border-red-500 mt-10 flex items-center justify-center text-4xl">
 				350 * 150
 			</div>
 			<div className="w-full flex justify-center items-center mt-10">
