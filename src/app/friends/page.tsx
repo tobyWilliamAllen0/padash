@@ -14,8 +14,8 @@ export default function Friends() {
 			</div>
 			<div className="bg-[#131313] rounded-md p-2">
 				<div className="w-full flex justify-between items-center mt-2 p-2 bg-[#262626] rounded-md">
-					<span className="text-base text-white ">۵ نفر</span>
-					<span className="text-base text-white ">۵/۰۰۰ امتیاز</span>
+					<span className="text-base text-white font-bold">۵ نفر</span>
+					<span className="text-base text-white font-bold">۵/۰۰۰ امتیاز</span>
 				</div>
 				<div className="w-full flex justify-between items-center mt-2">
 					<span className="text-base text-white ">داود صمدی</span>
