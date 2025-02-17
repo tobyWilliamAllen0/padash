@@ -14,7 +14,7 @@ const BottomNavbar = () => {
 	];
 
 	return (
-		<div className="fixed bottom-0 left-0 right-0 bg-[#0D0E1F] py-2">
+		<div className="fixed bottom-0 left-0 right-0 bg-[#131313] py-2 border-t-[1px] border-[#272727]">
 			<div className="flex justify-around items-center max-w-md mx-auto">
 				{navItems.map((item) => {
 					const isActive = pathname === item.path;
@@ -24,13 +24,13 @@ const BottomNavbar = () => {
 						<button
 							key={item.path}
 							className={`flex flex-col items-center p-2 transition-colors ${
-								isActive ? 'text-[#FF8A65]' : 'text-gray-400'
+								isActive ? 'text-[#4d9ce2]' : 'text-[#727272]'
 							}`}
 							onClick={() => router.push(item.path)}
 						>
 							<IconComponent
 								size="32"
-								color={isActive ? '#FF8A65' : '#6B7280'}
+								color={isActive ? '#4d9ce2' : '#727272'}
 								variant={isActive ? 'TwoTone' : 'Linear'}
 							/>
 							<span className="text-sm mt-1">{item.label}</span>

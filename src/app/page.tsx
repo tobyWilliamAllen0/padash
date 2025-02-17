@@ -1,7 +1,6 @@
 'use client';
-import BottomNavbar from '@/components/bottomNavbar';
-import { useEffect, useState } from 'react';
 import { ArrowRight2, Star1 } from 'iconsax-react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
 	const [hash, setHash] = useState('');
@@ -36,29 +35,28 @@ export default function Home() {
 			</div>
 			<div className="mt-20 flex flex-col items-center gap-3 ">
 				<div className="w-[100%] bg-[#1e1e1e] rounded-md flex items-center justify-between p-2 border-[#2c2c2c] border-[1px] ">
-					<ArrowRight2 size="24" color="#FF8A65" variant="Bulk" />
+					<ArrowRight2 size="24" color="#fff" variant="Bulk" />
 					<span className="text-lg font-bold text-white text-center">
 						ثبت شماره موبایل
 					</span>
 					<span className="text-sm text-white ">(برای شرکت در قرعه کشی)</span>
-					<Star1 size="24" color="#FF8A65" variant="Bulk" />
+					<Star1 size="24" color="#fff" variant="Bulk" />
 				</div>
 				<div className="w-[100%] bg-[#1e1e1e] rounded-md flex items-center justify-between p-2 border-[#2c2c2c] border-[1px] ">
-					<ArrowRight2 size="24" color="#FF8A65" variant="Bulk" />
+					<ArrowRight2 size="24" color="#fff" variant="Bulk" />
 					<span className="text-lg font-bold text-white text-center">
 						کانال تلگرام گروه مالی پاداش
 					</span>
-					<Star1 size="24" color="#FF8A65" variant="Bulk" />
+					<Star1 size="24" color="#fff" variant="Bulk" />
 				</div>
 				<div className="w-[100%] bg-[#1e1e1e] rounded-md flex items-center justify-between p-2 border-[#2c2c2c] border-[1px] ">
-					<ArrowRight2 size="24" color="#FF8A65" variant="Bulk" />
+					<ArrowRight2 size="24" color="#fff" variant="Bulk" />
 					<span className="text-lg font-bold text-white text-center">
 						سوابق امتیازات دریافت شده{' '}
 					</span>
-					<Star1 size="24" color="#FF8A65" variant="Bulk" />
+					<Star1 size="24" color="#fff" variant="Bulk" />
 				</div>
 			</div>
-			<BottomNavbar />
 		</div>
 	);
 }
