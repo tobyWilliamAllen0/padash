@@ -1,8 +1,10 @@
 'use client';
 import { ArrowRight2, Star1 } from 'iconsax-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
+	const router = useRouter();
 	const [hash, setHash] = useState('');
 	const app =
 		typeof window !== 'undefined' ? (window as any)?.Telegram?.WebApp : {};
@@ -42,7 +44,10 @@ export default function Home() {
 					<span className="text-sm text-white ">(برای شرکت در قرعه کشی)</span>
 					<Star1 size="24" color="#fff" variant="Bulk" />
 				</div>
-				<div className="w-[100%] bg-[#1e1e1e] rounded-md flex items-center justify-between p-2 border-[#2c2c2c] border-[1px] ">
+				<div
+					className="w-[100%] bg-[#1e1e1e] rounded-md flex items-center justify-between p-2 border-[#2c2c2c] border-[1px] "
+					onClick={() => router.push('https://t.me/padash_sarmayeh')}
+				>
 					<ArrowRight2 size="24" color="#fff" variant="Bulk" />
 					<span className="text-lg font-bold text-white text-center">
 						کانال تلگرام گروه مالی پاداش
