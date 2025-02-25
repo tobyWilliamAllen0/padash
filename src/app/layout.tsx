@@ -30,12 +30,12 @@ export default function RootLayout({
 				<Script src="https://telegram.org/js/telegram-web-app.js?56" />
 			</head>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0a0a0a]`}
-        		dir="rtl"
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				style={{ background: 'linear-gradient(0deg, #0a0a0a, #1e1b10)' }}
+				dir="rtl"
 			>
 				{children}
 				<BottomNavbar />
-
 			</body>
 		</html>
 	);

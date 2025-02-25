@@ -2,17 +2,22 @@
 
 export default function Friends() {
 	return (
-		<div className="p-4 overflow-hidden">
-			<div className="w-[100%] h-[150px] border-dashed border-2 border-red-500 mt-2 flex items-center justify-center text-4xl">
-				350 * 150
-			</div>
-			<div className="w-full flex justify-center items-center mt-2">
-				<span className="text-lg text-white text-center font-bold px-10">
-					با معرفی هر کدام از دوستانتان ۱/۰۰۰ امتیاز اضافه کنید و شانس خود را
-					افزایش دهید{' '}
+		<div
+			className="p-4 overflow-hidden w-full flex flex-col justify-between items-center"
+			style={{ height: 'calc(100vh - 90px)' }}
+		>
+			<div className="w-full flex flex-col justify-right items-start mt-4 gap-2">
+				<span className="text-3xl text-white text-right font-bold">
+					معرفی دوستان
+				</span>
+
+				<span className="text-xl text-[#5b5b5b] text-right font-bold">
+					با <span className="text-[#fafafa]">معرفی</span> هر کدام از دوستانتان
+					<span className="text-[#fafafa] pr-1">۱۰۰۰ امتیاز</span> اضافه کنید و
+					شانس خود را افزایش دهید{' '}
 				</span>
 			</div>
-			<div className="bg-[#131313] rounded-md p-2">
+			<div className="bg-[#131313] rounded-md p-2 w-full">
 				<div className="w-full flex justify-between items-center mt-2 p-2 bg-[#262626] rounded-md">
 					<span className="text-base text-white font-bold">۵ نفر</span>
 					<span className="text-base text-white font-bold">۵/۰۰۰ امتیاز</span>

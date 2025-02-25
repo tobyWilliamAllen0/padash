@@ -2,7 +2,10 @@
 
 export default function Tops() {
 	return (
-		<div className="p-4 overflow-hidden">
+		<div
+			className="p-4 overflow-hidden flex flex-col justify-between items-center"
+			style={{ height: 'calc(100vh - 90px)' }}
+		>
 			<div className="w-[100%] h-[150px] border-dashed border-2 border-red-500 mt-2 flex items-center justify-center text-4xl">
 				350 * 150
 			</div>
@@ -11,7 +14,7 @@ export default function Tops() {
 					LeaderBoard
 				</span>
 			</div>
-			<div className="bg-[#131313] rounded-md max-h-[350px] overflow-y-auto">
+			<div className="bg-[#131313] rounded-md max-h-[350px] overflow-y-auto w-full">
 				<div className="w-full flex justify-between items-center mt-2 py-6 px-2 bg-[#fff] rounded-md">
 					<span className="text-base text-black font-bold">جایگاه شما</span>
 					<span className="text-base text-black font-bold">۱۵ / ۲۴۱</span>

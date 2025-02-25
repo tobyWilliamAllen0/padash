@@ -1,6 +1,7 @@
 'use client';
-import { Home, People, ElementPlus, Sort } from 'iconsax-react';
+import { Home, People, ElementPlus } from 'iconsax-react';
 import { usePathname, useRouter } from 'next/navigation';
+import { FaTrophy } from 'react-icons/fa6';
 
 const BottomNavbar = () => {
 	const router = useRouter();
@@ -8,7 +9,7 @@ const BottomNavbar = () => {
 
 	const navItems = [
 		{ path: '/', icon: Home, label: 'خانه' },
-		{ path: '/tops', icon: Sort, label: 'برترین' },
+		{ path: '/tops', icon: FaTrophy, label: 'برترین' },
 		{ path: '/friends', icon: People, label: 'دوستان' },
 		{ path: '/points', icon: ElementPlus, label: 'امتیازگیری' },
 	];
@@ -29,7 +30,7 @@ const BottomNavbar = () => {
 							onClick={() => router.push(item.path)}
 						>
 							<IconComponent
-								size="32"
+								size="24"
 								color={isActive ? '#4d9ce2' : '#727272'}
 								variant={isActive ? 'TwoTone' : 'Linear'}
 							/>
