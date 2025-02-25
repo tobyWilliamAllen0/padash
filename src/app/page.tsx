@@ -10,8 +10,7 @@ import { useEffect, useState } from 'react';
 export default function Home() {
 	const router = useRouter();
 	const [hash, setHash] = useState<string>('');
-	const [userProfileState, getUserProfile] = useFetch();
-	const [userLeaderBoardState, getUserLeaderBoard] = useFetch();
+	const [userLeaderBoardState, setUserLeaderBoard] = useState({ rank: 0 });
 
 	const app =
 		typeof window !== 'undefined' ? (window as any)?.Telegram?.WebApp : {};
@@ -27,13 +26,21 @@ export default function Home() {
 				},
 			});
 
-			console.log(response, 'response');
-
 			setCookie(null, 'userProfile', JSON.stringify(response.data.result), {
 				path: '/',
 				maxAge: 30 * 24 * 60 * 60,
 				sameSite: true,
 			});
+			const leaderBoardresponse = await axios({
+				url: 'https://api.padash-campaign.com/user/leaderboard',
+				method: 'POST',
+				data: {
+					hash: hash.toString(),
+					referral_code: 'string',
+				},
+			});
+			setUserLeaderBoard(leaderBoardresponse.data.result);
+			console.log(leaderBoardresponse.data.result, 'leaderBoardresponse');
 		} catch (e) {
 			console.log(e);
 		}
@@ -44,12 +51,6 @@ export default function Home() {
 			setHash(app.initData);
 		}
 	}, [app]);
-
-	useEffect(() => {
-		if (hash) {
-			fetchUserProfile();
-		}
-	}, [hash]);
 
 	const [state, setState] = useState(0);
 
@@ -62,13 +63,10 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		if (userProfileState.response) {
-			getUserLeaderBoard({
-				url: 'user/leaderboard',
-				method: 'GET',
-			});
+		if (hash) {
+			fetchUserProfile();
 		}
-	}, [userProfileState.response]);
+	}, [hash]);
 
 	return (
 		<div className="p-4 overflow-hidden h-screen flex flex-col items-center justify-between">
@@ -88,9 +86,7 @@ export default function Home() {
 				</div>
 				<div className="w-full flex justify-center items-center mt-4 gap-1">
 					<span className="text-lg text-[#808080] text-center font-bold">
-						{userLeaderBoardState.response?.data.result.rank.toLocaleString(
-							'fa-IR',
-						)}
+						{userLeaderBoardState?.rank.toLocaleString('fa-IR')}
 					</span>
 					<ArrowRight2 size="18" color="#666666" />
 
