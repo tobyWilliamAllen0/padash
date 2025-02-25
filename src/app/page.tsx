@@ -1,5 +1,4 @@
 'use client';
-import useFetch from '@/hooks/useFetch';
 import axios from 'axios';
 import { ArrowRight2, Star1 } from 'iconsax-react';
 import Image from 'next/image';

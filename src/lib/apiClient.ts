@@ -41,7 +41,6 @@ async function ApiClient(path: string, options: any) {
 	const userProfile = parseCookies()['userProfile'];
 	const token = JSON.parse(userProfile)?.accessToken;
 
-	console.log(JSON.parse(userProfile), token);
 	if (token) {
 		fetchOptions.headers['Authorization'] = 'Bearer ' + token;
 	}
