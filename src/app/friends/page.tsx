@@ -6,7 +6,7 @@ export default function Friends() {
 	return (
 		<div
 			className="p-4 overflow-hidden w-full flex flex-col justify-between items-center"
-			style={{ height: 'calc(100vh - 90px)' }}
+			style={{ height: 'calc(100vh - 81px)' }}
 		>
 			<div className="flex flex-col">
 				<div className="w-full flex flex-col justify-right items-start mt-4 gap-2">

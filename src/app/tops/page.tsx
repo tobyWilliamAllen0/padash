@@ -4,7 +4,7 @@ export default function Tops() {
 	return (
 		<div
 			className="p-4 overflow-hidden flex flex-col justify-between items-center"
-			style={{ height: 'calc(100vh - 90px)' }}
+			style={{ height: 'calc(100vh - 81px)' }}
 		>
 			<div className="w-[100%] h-[150px] border-dashed border-2 border-red-500 mt-2 flex items-center justify-center text-4xl">
 				350 * 150

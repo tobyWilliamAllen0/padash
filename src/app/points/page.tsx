@@ -6,7 +6,7 @@ export default function Points() {
 	return (
 		<div
 			className="p-4 overflow-hidden"
-			style={{ height: 'calc(100vh - 90px)' }}
+			style={{ height: 'calc(100vh - 81px)' }}
 		>
 			<div className="w-[100%] h-[150px] border-dashed border-2 border-red-500 mt-2 flex items-center justify-center text-4xl">
 				350 * 150
