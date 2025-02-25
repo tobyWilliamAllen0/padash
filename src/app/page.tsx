@@ -34,6 +34,9 @@ export default function Home() {
 			const leaderBoardresponse = await axios({
 				url: 'https://api.padash-campaign.com/user/leaderboard',
 				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${response.data.result.accessToken}`,
+				},
 			});
 			setUserLeaderBoard(leaderBoardresponse.data.result);
 			console.log(leaderBoardresponse.data.result, 'leaderBoardresponse');
