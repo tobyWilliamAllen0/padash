@@ -19,7 +19,7 @@ export default function Home() {
 	const fetchUserProfile = async () => {
 		try {
 			const response = await axios({
-				url: 'user/profile',
+				url: 'https://api.padash-campaign.com/user/profile',
 				method: 'POST',
 				data: {
 					hash: hash.toString(),
