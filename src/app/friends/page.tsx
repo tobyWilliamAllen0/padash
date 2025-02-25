@@ -21,13 +21,11 @@ export default function Friends() {
 						و شانس خود را افزایش دهید{' '}
 					</span>
 				</div>
-				<div className="bg-[#131313] rounded-md p-2 w-full">
-					<div className="w-full flex justify-between items-center mt-2 p-2 bg-[#262626] rounded-md">
-						<span className="text-base text-white font-bold">
-							مجموع دعوت ها
-						</span>
-						<span className="text-base text-white font-bold">۳ نفر</span>
-					</div>
+				<div className="w-full flex justify-between items-center mt-2 p-2 bg-[#151515] rounded-md">
+					<span className="text-base text-white font-bold">مجموع دعوت ها</span>
+					<span className="text-base text-white font-bold">۳ نفر</span>
+				</div>
+				<div className="w-full flex flex-col justify-between items-center mt-4 p-2 bg-[#151515] rounded-md">
 					<div className="w-full flex justify-between items-center mt-2 h-16 border-b border-[#333333]">
 						<div className="flex flex-row gap-2 items-center">
 							<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-[#7c7c7c]">
@@ -41,7 +39,7 @@ export default function Friends() {
 							</div>
 						</div>
 						<div className="flex flex-col items-end">
-							<span className="text-base text-[#f7f7f7] ">۱۰۰۰+ </span>
+							<span className="text-xl text-[#f7f7f7] ">۱۰۰۰+ </span>
 							<span className="text-xs text-[#43805c] ">دریافت شد</span>
 						</div>
 					</div>
@@ -58,7 +56,7 @@ export default function Friends() {
 							</div>
 						</div>
 						<div className="flex flex-col items-end">
-							<span className="text-base text-[#f7f7f7] ">۱۰۰۰+ </span>
+							<span className="text-xl text-[#f7f7f7] ">۱۰۰۰+ </span>
 							<span className="text-xs text-[#43805c] ">دریافت شد</span>
 						</div>
 					</div>
@@ -75,7 +73,7 @@ export default function Friends() {
 							</div>
 						</div>
 						<div className="flex flex-col items-end">
-							<span className="text-base text-[#f7f7f7] ">۱۰۰۰+ </span>
+							<span className="text-xl text-[#f7f7f7] ">۱۰۰۰+ </span>
 							<span className="text-xs text-[#43805c] ">دریافت شد</span>
 						</div>
 					</div>
