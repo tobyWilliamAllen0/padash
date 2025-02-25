@@ -35,6 +35,16 @@ export default function Home() {
 		}
 	}, [hash]);
 
+	const [state, setState] = useState(0);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setState((prev) => prev + 1);
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, []);
+
 	useEffect(() => {
 		if (userProfileState.response) {
 			setCookie(
@@ -54,8 +64,8 @@ export default function Home() {
 			});
 		}
 	}, [userProfileState.response]);
-
 	console.log(userProfileState, 'userProfileState');
+
 	return (
 		<div className="p-4 overflow-hidden h-screen flex flex-col items-center justify-between">
 			<div className="flex flex-col items-center">
