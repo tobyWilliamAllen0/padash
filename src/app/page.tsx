@@ -33,11 +33,7 @@ export default function Home() {
 			});
 			const leaderBoardresponse = await axios({
 				url: 'https://api.padash-campaign.com/user/leaderboard',
-				method: 'POST',
-				data: {
-					hash: hash.toString(),
-					referral_code: 'string',
-				},
+				method: 'GET',
 			});
 			setUserLeaderBoard(leaderBoardresponse.data.result);
 			console.log(leaderBoardresponse.data.result, 'leaderBoardresponse');
