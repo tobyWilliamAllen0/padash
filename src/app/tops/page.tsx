@@ -4,8 +4,7 @@ import { parseCookies } from 'nookies';
 
 export default function Tops() {
 	const userProfile = parseCookies()['userProfile'];
-	console.log(JSON.parse(userProfile)?.user);
-	const user = JSON.parse(userProfile)?.user;
+	const user = userProfile ? JSON.parse(userProfile)?.user : {};
 	return (
 		<div
 			className="p-4 overflow-hidden flex flex-col justify-start items-center"
