@@ -5,7 +5,7 @@ import { Method } from 'axios';
 interface State {
 	isLoading: boolean;
 	error: unknown;
-	response: unknown;
+	response: any;
 }
 
 interface Action {
