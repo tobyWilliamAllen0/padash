@@ -31,7 +31,7 @@ export default function RootLayout({
 			</head>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-				style={{ background: 'linear-gradient(0deg, #0a0a0a, #1e1b10)' }}
+				style={{ background: 'linear-gradient(0deg, #0a0a0a, #16140c)' }}
 				dir="rtl"
 			>
 				{children}
