@@ -1,5 +1,6 @@
 'use client';
 import useFetch from '@/hooks/useFetch';
+import axios from 'axios';
 import { ArrowRight2, Star1 } from 'iconsax-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -15,6 +16,28 @@ export default function Home() {
 	const app =
 		typeof window !== 'undefined' ? (window as any)?.Telegram?.WebApp : {};
 
+	const fetchUserProfile = async () => {
+		try {
+			const response = await axios({
+				url: 'user/profile',
+				method: 'POST',
+				data: {
+					hash: hash.toString(),
+					referral_code: 'string',
+				},
+			});
+
+			console.log(response, 'response');
+
+			setCookie(null, 'userProfile', JSON.stringify(response.data.result), {
+				path: '/',
+				maxAge: 30 * 24 * 60 * 60,
+				sameSite: true,
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	};
 	useEffect(() => {
 		if (app) {
 			console.log(app.initData, 'app.initData');
@@ -24,14 +47,7 @@ export default function Home() {
 
 	useEffect(() => {
 		if (hash) {
-			getUserProfile({
-				url: 'user/profile',
-				method: 'POST',
-				data: {
-					hash: hash.toString(),
-					referral_code: 'string',
-				},
-			});
+			fetchUserProfile();
 		}
 	}, [hash]);
 
@@ -47,24 +63,12 @@ export default function Home() {
 
 	useEffect(() => {
 		if (userProfileState.response) {
-			setCookie(
-				null,
-				'userProfile',
-				JSON.stringify(userProfileState.response.data.result),
-				{
-					path: '/',
-					maxAge: 30 * 24 * 60 * 60,
-					sameSite: true,
-				},
-			);
-
 			getUserLeaderBoard({
 				url: 'user/leaderboard',
 				method: 'GET',
 			});
 		}
 	}, [userProfileState.response]);
-	console.log(userProfileState, 'userProfileState');
 
 	return (
 		<div className="p-4 overflow-hidden h-screen flex flex-col items-center justify-between">

@@ -42,8 +42,9 @@ async function ApiClient(path: string, options: any) {
 	const token = JSON.parse(userProfile)?.accessToken;
 
 	console.log(JSON.parse(userProfile), token);
-
-	fetchOptions.headers['Authorization'] = 'Bearer ' + token;
+	if (token) {
+		fetchOptions.headers['Authorization'] = 'Bearer ' + token;
+	}
 	if (fetchOptions.type === 'formdata') {
 		fetchOptions.body = new FormData();
 
