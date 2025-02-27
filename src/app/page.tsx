@@ -1,4 +1,6 @@
 'use client';
+import useFetch from '@/hooks/useFetch';
+import ApiClient from '@/lib/apiClient';
 import axios from 'axios';
 import { ArrowRight2, Star1 } from 'iconsax-react';
 import Image from 'next/image';
@@ -8,61 +10,44 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
 	const router = useRouter();
-	const [hash, setHash] = useState<string>('');
-	const [userLeaderBoardState, setUserLeaderBoard] = useState({ rank: 0 });
+	const [hash, setHash] = useState<string>(
+		'user=%7B%22id%22%3A54200739%2C%22first_name%22%3A%22Alireza%22%2C%22last_name%22%3A%22T%F0%9F%98%B6%E2%80%8D%F0%9F%8C%AB%EF%B8%8F%22%2C%22username%22%3A%22Alirezatahani%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FaAyicCE7F5eB_SotoFbqxPKvMBHC9yaN3qC9sfiO5vI.svg%22%7D&chat_instance=-1916207976170099950&chat_type=sender&auth_date=1739546970&signature=zRO5sAFS86L3f2aBUdNpCD66dVbXa7GsMmeCjj7eOzMbrUL8WXjim9-bbKTmQf0qWHzftFO9DUnWwRXqPGaDCQ&hash=99570ed1c34ab9f1ce8b1228b986db81e6fc0ddc575f87f8432844b7259b746a',
+	);
 
-	const app =
-		typeof window !== 'undefined' ? (window as any)?.Telegram?.WebApp : {};
+	const [userProfileState, fetchUserProfile] = useFetch({
+		onSuccess(res: any) {
+			setCookie(null, 'userProfile', JSON.stringify(res), {
+				path: '/',
+				maxAge: 30 * 24 * 60 * 60,
+				sameSite: true,
+			});
+		},
+	});
 
-	const fetchUserProfile = async () => {
-		try {
-			const response = await axios({
-				url: 'https://api.padash-campaign.com/user/profile',
+	useEffect(() => {
+		const interval = setTimeout(() => {
+			const app =
+				typeof window !== 'undefined' ? (window as any)?.Telegram?.WebApp : {};
+
+			if (app) {
+				console.log(app.initData, 'app.initData');
+				setHash(app.initData);
+			}
+		}, 2000);
+
+		return () => clearTimeout(interval);
+	}, []);
+
+	useEffect(() => {
+		if (hash) {
+			fetchUserProfile({
+				url: 'user/profile',
 				method: 'POST',
 				data: {
 					hash: hash.toString(),
 					referral_code: 'string',
 				},
 			});
-
-			setCookie(null, 'userProfile', JSON.stringify(response.data.result), {
-				path: '/',
-				maxAge: 30 * 24 * 60 * 60,
-				sameSite: true,
-			});
-			const leaderBoardresponse = await axios({
-				url: 'https://api.padash-campaign.com/user/leaderboard',
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${response.data.result.accessToken}`,
-				},
-			});
-			setUserLeaderBoard(leaderBoardresponse.data.result);
-			console.log(leaderBoardresponse.data.result, 'leaderBoardresponse');
-		} catch (e) {
-			console.log(e);
-		}
-	};
-	useEffect(() => {
-		if (app) {
-			console.log(app.initData, 'app.initData');
-			setHash(app.initData);
-		}
-	}, [app]);
-
-	const [state, setState] = useState(0);
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setState((prev) => prev + 1);
-		}, 1000);
-
-		return () => clearInterval(interval);
-	}, []);
-
-	useEffect(() => {
-		if (hash) {
-			fetchUserProfile();
 		}
 	}, [hash]);
 
@@ -84,12 +69,14 @@ export default function Home() {
 				</div>
 				<div className="w-full flex justify-center items-center mt-4 gap-1">
 					<span className="text-lg text-[#808080] text-center font-bold">
-						{userLeaderBoardState?.rank.toLocaleString('fa-IR')}
+						{userProfileState?.response?.user?.total_scores.toLocaleString(
+							'fa-IR',
+						)}
 					</span>
 					<ArrowRight2 size="18" color="#666666" />
 
 					<span className="text-lg text-[#808080] text-center font-bold">
-						رتبه شما
+						امتیاز شما
 					</span>
 					<Image
 						src="/assets/images/trophy2.webp"

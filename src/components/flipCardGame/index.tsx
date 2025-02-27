@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 type BoxStatus = 'hidden' | 'prize' | 'bomb';
 
@@ -52,8 +53,8 @@ export default function FlipCardGame() {
 			setBoxes(newBoxes);
 			setDisableOtherBoxes(false);
 
-			setTimeout(() => setFlippingIndex(null), 2700);
-		}, 1500);
+			setTimeout(() => setFlippingIndex(null), 1000);
+		}, 500);
 	};
 
 	const getInitialBoxes = () => {
@@ -70,14 +71,10 @@ export default function FlipCardGame() {
 	};
 
 	return (
-		<div className="min-h-screen p-8 pb-20">
-			<div className="text-center mb-8">
-				<h1 className="text-2xl font-bold text-white mb-2">امتیاز: {score}</h1>
-				{gameOver && (
-					<p className="text-xl text-white">
-						{score === 4 ? 'برنده شدی! 🎉' : 'باختی! 💣'}
-					</p>
-				)}
+		<div className="min-h-screen p-2 pb-20">
+			<div className="flex items-center justify-end gap-4 mb-6">
+				<span>زمان باقی مانده:</span>
+				<span>48:00:00</span>
 			</div>
 
 			<div className="grid grid-cols-4 gap-1 max-w-md mx-auto">
@@ -95,18 +92,26 @@ export default function FlipCardGame() {
 																? 'bg-white hover:bg-gray-100'
 																: ''
 														}
-                            ${status === 'prize' ? 'bg-green-500' : ''}
-                            ${status === 'bomb' ? 'bg-red-500' : ''}
+							${status === 'bomb' ? 'bg-red-500' : ''}
+							${status === 'prize' ? 'bg-white' : ''}
+
                         `}
 						style={{
 							zIndex: flippingIndex === index ? 20 : 10,
 							position: 'relative',
 							animation:
 								flippingIndex === index
-									? 'normalize 1s ease-in-out 1.5s, shake 1.5s cubic-bezier(0.4, 0, 0.2, 1)'
+									? 'normalize 0.5s ease-in-out 0.5s, shake 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
 									: 'none',
 						}}
-					/>
+					>
+						<Image
+							src="/assets/images/logo.png"
+							alt="Logo"
+							fill
+							className={status === 'prize' ? 'flex' : 'hidden'}
+						/>
+					</div>
 				))}
 			</div>
 

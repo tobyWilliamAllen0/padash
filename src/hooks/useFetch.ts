@@ -60,8 +60,8 @@ function useFetch(
 		try {
 			dispatch({ type: 'FETCH_INIT' });
 			const res = await ApiClient(url, options);
-			action && action.onSuccess && action.onSuccess(res);
-			dispatch({ type: 'FETCH_SUCCESS', payload: res });
+			action && action.onSuccess && action.onSuccess(res.data.result);
+			dispatch({ type: 'FETCH_SUCCESS', payload: res.data.result });
 		} catch (e: unknown) {
 			action && action.onError && action.onError(e);
 			dispatch({ type: 'FETCH_FAILURE', payload: e });
