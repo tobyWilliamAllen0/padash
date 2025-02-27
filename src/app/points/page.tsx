@@ -39,7 +39,7 @@ export default function Points() {
 								خودرو
 							</span>
 						</div>
-						<div className='mt-4'>
+						<div className="mt-4">
 							<CheckboxGroup ref={checkboxGroupRef} options={options} />
 						</div>
 					</div>
@@ -57,10 +57,7 @@ export default function Points() {
 	};
 
 	return (
-		<div
-			className="p-4 overflow-hidden"
-			style={{ height: 'calc(100vh - 81px)' }}
-		>
+		<div className="p-4 overflow-auto" style={{ height: 'calc(100vh - 81px)' }}>
 			<div className="w-full flex flex-col justify-right items-start mt-4 gap-2 mb-6">
 				<span className="text-3xl text-white text-right font-bold">
 					امتیازگیری{' '}
