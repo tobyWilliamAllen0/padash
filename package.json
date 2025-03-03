@@ -16,8 +16,10 @@
     "next": "15.1.7",
     "nookies": "^2.5.2",
     "react": "^19.0.0",
+    "react-bottom-drawer": "^0.1.1",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.4.0"
+    "react-icons": "^5.4.0",
+    "react-spinners": "^0.15.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

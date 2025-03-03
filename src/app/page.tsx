@@ -1,16 +1,21 @@
 'use client';
+import Button from '@/components/button';
+import { Input } from '@/components/input';
 import useFetch from '@/hooks/useFetch';
-import ApiClient from '@/lib/apiClient';
-import axios from 'axios';
 import { ArrowRight2, Star1 } from 'iconsax-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { setCookie } from 'nookies';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import Drawer from 'react-bottom-drawer';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 
 export default function Home() {
 	const router = useRouter();
 	const [hash, setHash] = useState<string>('');
+	const [isVisible, setIsVisible] = useState(false);
+
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const [userProfileState, fetchUserProfile] = useFetch({
 		onSuccess(res: any) {
@@ -25,6 +30,24 @@ export default function Home() {
 	const [socialsState, fetchSocials] = useFetch();
 
 	const [socialsCheckState, checkSocial] = useFetch();
+	const [submitPhoneNumberState, submitPhoneNumber] = useFetch();
+	const [verifyCodeState, verifyCode] = useFetch();
+
+	const onClose = useCallback(() => {
+		setIsVisible(false);
+	}, []);
+
+	const handleSubmitPhone = () => {
+		if (inputRef.current) {
+			submitPhoneNumber({
+				url: 'user/submit-mobile-number',
+				method: 'POST',
+				data: {
+					mobile_number: inputRef.current.value,
+				},
+			});
+		}
+	};
 
 	useEffect(() => {
 		const interval = setTimeout(() => {
@@ -71,8 +94,12 @@ export default function Home() {
 		}
 	}, [socialsState]);
 
-	console.log(socialsState, 'socialsState');
-	console.log(socialsCheckState, 'socialsCheckState');
+	useEffect(() => {
+		if (submitPhoneNumberState?.response) {
+			console.log(submitPhoneNumberState, 'submitPhoneNumberState');
+		}
+	}, [submitPhoneNumberState]);
+
 	return (
 		<div className="p-4 overflow-hidden h-screen flex flex-col items-center justify-between">
 			<div className="flex flex-col items-center">
@@ -109,7 +136,10 @@ export default function Home() {
 				</div>
 			</div>
 			<div className="pb-[90px] flex flex-col items-center gap-3 w-full">
-				<div className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] ">
+				<div
+					className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] "
+					onClick={() => setIsVisible(true)}
+				>
 					<div className="flex flex-row items-center gap-1">
 						<ArrowRight2 size="18" color="#666666" />
 						<span className="text-base font-bold text-white text-right">
@@ -143,6 +173,31 @@ export default function Home() {
 					<Star1 size="18" color="#fcfcfc" variant="Bulk" />
 				</div>
 			</div>
+
+			<Drawer isVisible={isVisible} onClose={onClose} className="!bg-[#171717]">
+				<div className="w-full h-96 pt-10 flex justify-start items-center flex-col gap-6">
+					<div className="w-full flex justify-center items-center">
+						<span className="text-lg text-white text-center font-bold px-10">
+							لطفا شماره تلفن همراه خود را وارد نمایید{' '}
+						</span>
+					</div>
+
+					<Input placeholder="شماره تلفن همراه" ref={inputRef} />
+					<Button onClick={handleSubmitPhone}>
+						{submitPhoneNumberState.isLoading ? (
+							<ScaleLoader
+								color="#fff"
+								loading={submitPhoneNumberState.isLoading}
+								aria-label="Loading Spinner"
+								data-testid="loader"
+								height={15}
+							/>
+						) : (
+							<span className="text-[#24242B]">ثبت</span>
+						)}
+					</Button>
+				</div>
+			</Drawer>
 		</div>
 	);
 }
