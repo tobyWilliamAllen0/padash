@@ -1,6 +1,7 @@
 'use client';
 import Button from '@/components/button';
 import { Input } from '@/components/input';
+import StyledPinInput from '@/components/pinInput';
 import useFetch from '@/hooks/useFetch';
 import { ArrowRight2, Star1 } from 'iconsax-react';
 import Image from 'next/image';
@@ -10,10 +11,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Drawer from 'react-bottom-drawer';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 
+const INITIAL_PIN = ['', '', '', '', '', ''];
+
 export default function Home() {
 	const router = useRouter();
 	const [hash, setHash] = useState<string>('');
 	const [isVisible, setIsVisible] = useState(false);
+	const [step, setStep] = useState<1 | 2>(1);
+	const [mobilePin, setMobilePin] = useState<string[]>(INITIAL_PIN);
 
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -30,8 +35,14 @@ export default function Home() {
 	const [socialsState, fetchSocials] = useFetch();
 
 	const [socialsCheckState, checkSocial] = useFetch();
-	const [submitPhoneNumberState, submitPhoneNumber] = useFetch();
-	const [verifyCodeState, verifyCode] = useFetch();
+	const [submitPhoneNumberState, submitPhoneNumber] = useFetch({
+		onSuccess(res) {
+			setStep(2);
+		},
+	});
+	const [verifyCodeState, verifyCode] = useFetch({
+		onSuccess(res) {},
+	});
 
 	const onClose = useCallback(() => {
 		setIsVisible(false);
@@ -44,6 +55,18 @@ export default function Home() {
 				method: 'POST',
 				data: {
 					mobile_number: inputRef.current.value,
+				},
+			});
+		}
+	};
+	const handleVerifyPhone = () => {
+		if (inputRef.current) {
+			verifyCode({
+				url: 'user/verify-mobile-number',
+				method: 'POST',
+				data: {
+					mobile_number: inputRef.current.value,
+					code: mobilePin.join(''),
 				},
 			});
 		}
@@ -93,12 +116,6 @@ export default function Home() {
 			});
 		}
 	}, [socialsState]);
-
-	useEffect(() => {
-		if (submitPhoneNumberState?.response) {
-			console.log(submitPhoneNumberState, 'submitPhoneNumberState');
-		}
-	}, [submitPhoneNumberState]);
 
 	return (
 		<div className="p-4 overflow-hidden h-screen flex flex-col items-center justify-between">
@@ -175,28 +192,57 @@ export default function Home() {
 			</div>
 
 			<Drawer isVisible={isVisible} onClose={onClose} className="!bg-[#171717]">
-				<div className="w-full h-96 pt-10 flex justify-start items-center flex-col gap-6">
-					<div className="w-full flex justify-center items-center">
-						<span className="text-lg text-white text-center font-bold px-10">
-							لطفا شماره تلفن همراه خود را وارد نمایید{' '}
-						</span>
-					</div>
+				{step === 1 && (
+					<div className="w-full h-96 pt-10 flex justify-start items-center flex-col gap-6">
+						<div className="w-full flex justify-center items-center">
+							<span className="text-lg text-white text-center font-bold px-10">
+								لطفا شماره تلفن همراه خود را وارد نمایید{' '}
+							</span>
+						</div>
 
-					<Input placeholder="شماره تلفن همراه" ref={inputRef} />
-					<Button onClick={handleSubmitPhone}>
-						{submitPhoneNumberState.isLoading ? (
-							<ScaleLoader
-								color="#fff"
-								loading={submitPhoneNumberState.isLoading}
-								aria-label="Loading Spinner"
-								data-testid="loader"
-								height={15}
-							/>
-						) : (
-							<span className="text-[#24242B]">ثبت</span>
-						)}
-					</Button>
-				</div>
+						<Input placeholder="شماره تلفن همراه" ref={inputRef} />
+						<Button onClick={handleSubmitPhone}>
+							{submitPhoneNumberState.isLoading ? (
+								<ScaleLoader
+									color="#fff"
+									loading={submitPhoneNumberState.isLoading}
+									aria-label="Loading Spinner"
+									data-testid="loader"
+									height={15}
+								/>
+							) : (
+								<span className="text-[#24242B]">ثبت</span>
+							)}
+						</Button>
+					</div>
+				)}
+				{step === 2 && (
+					<div className="w-full h-96 pt-10 flex justify-start items-center flex-col gap-6">
+						<div className="w-full flex justify-center items-center">
+							<span className="text-lg text-white text-center font-bold px-10">
+								لطفا کد ارسال شده به شماره تلفن همراه خود را وارد نمایید{' '}
+							</span>
+						</div>
+
+						<StyledPinInput
+							values={mobilePin}
+							onChange={(_value, _index, values) => setMobilePin(values)}
+						/>
+						<Button onClick={handleVerifyPhone}>
+							{submitPhoneNumberState.isLoading ? (
+								<ScaleLoader
+									color="#fff"
+									loading={submitPhoneNumberState.isLoading}
+									aria-label="Loading Spinner"
+									data-testid="loader"
+									height={15}
+								/>
+							) : (
+								<span className="text-[#24242B]">ثبت</span>
+							)}
+						</Button>
+					</div>
+				)}
 			</Drawer>
 		</div>
 	);
