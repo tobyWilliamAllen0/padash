@@ -22,6 +22,10 @@ export default function Home() {
 		},
 	});
 
+	const [socialsState, fetchSocials] = useFetch();
+
+	const [socialsCheckState, checkSocial] = useFetch();
+
 	useEffect(() => {
 		const interval = setTimeout(() => {
 			const app =
@@ -30,6 +34,11 @@ export default function Home() {
 			if (app) {
 				console.log(app.initData, 'app.initData');
 				setHash(app.initData);
+
+				fetchSocials({
+					url: 'social',
+					method: 'GET',
+				});
 			}
 		}, 2000);
 
@@ -48,6 +57,8 @@ export default function Home() {
 		}
 	}, [hash]);
 
+
+	console.log(socialsState, 'socialsState')
 	return (
 		<div className="p-4 overflow-hidden h-screen flex flex-col items-center justify-between">
 			<div className="flex flex-col items-center">
