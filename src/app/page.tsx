@@ -17,6 +17,7 @@ export default function Home() {
 	const router = useRouter();
 	const [hash, setHash] = useState<string>('');
 	const [isVisible, setIsVisible] = useState(false);
+	const [phoneNumber, setPhoneNumber] = useState<string>('');
 	const [step, setStep] = useState<1 | 2>(1);
 	const [mobilePin, setMobilePin] = useState<string[]>(INITIAL_PIN);
 
@@ -50,6 +51,7 @@ export default function Home() {
 
 	const handleSubmitPhone = () => {
 		if (inputRef.current) {
+			setPhoneNumber(inputRef.current.value);
 			submitPhoneNumber({
 				url: 'user/submit-mobile-number',
 				method: 'POST',
@@ -60,12 +62,12 @@ export default function Home() {
 		}
 	};
 	const handleVerifyPhone = () => {
-		if (inputRef.current) {
+		if (phoneNumber && mobilePin.join('') !== '') {
 			verifyCode({
 				url: 'user/verify-mobile-number',
 				method: 'POST',
 				data: {
-					mobile_number: inputRef.current.value,
+					mobile_number: phoneNumber,
 					code: mobilePin.join(''),
 				},
 			});
@@ -229,10 +231,10 @@ export default function Home() {
 							onChange={(_value, _index, values) => setMobilePin(values)}
 						/>
 						<Button onClick={handleVerifyPhone}>
-							{submitPhoneNumberState.isLoading ? (
+							{verifyCodeState.isLoading ? (
 								<ScaleLoader
 									color="#fff"
-									loading={submitPhoneNumberState.isLoading}
+									loading={verifyCodeState.isLoading}
 									aria-label="Loading Spinner"
 									data-testid="loader"
 									height={15}
