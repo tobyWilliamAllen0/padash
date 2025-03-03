@@ -57,8 +57,22 @@ export default function Home() {
 		}
 	}, [hash]);
 
+	useEffect(() => {
+		if (socialsState?.response) {
+			socialsState.response.map((response: any) => {
+				checkSocial({
+					url: 'social/check-join',
+					method: 'POST',
+					data: {
+						socialId: response._id,
+					},
+				});
+			});
+		}
+	}, [socialsState]);
 
-	console.log(socialsState, 'socialsState')
+	console.log(socialsState, 'socialsState');
+	console.log(socialsCheckState, 'socialsCheckState');
 	return (
 		<div className="p-4 overflow-hidden h-screen flex flex-col items-center justify-between">
 			<div className="flex flex-col items-center">
