@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { Question } from './content/question';
 import useFetch from '@/hooks/useFetch';
 import ScaleLoader from 'react-spinners/ScaleLoader';
+import { Questions } from './content/questions';
 
 export default function Points() {
 	const [questionState, fetchQuestion] = useFetch();
@@ -39,8 +40,26 @@ export default function Points() {
 							height={15}
 						/>
 					</div>
-				) : questionState?.isSucceed ? (
-					<Question question={questionState?.response[0]} />
+				) : !questionState?.isSucceed ? (
+					<Questions
+						questions={[
+							{
+								_id: '67c8aeb43065dc98163a53d2',
+								question:
+									'صندوق بخشی گروه مالی پاداش با نماد رو در کدام صنعت عمدتا سرمایه گذاری می » پاداش کند؟',
+								options: [
+									'صنعت شیمیایی',
+									'صنعت سیمان',
+									'صنعت دارو',
+									'صنعت خودرو',
+								],
+								answer: 2,
+								answered_count: 0,
+								active_time: '2025-03-25T20:04:53.718Z',
+								createdAt: '2025-03-05T20:06:12.799Z',
+							},
+						]}
+					/>
 				) : (
 					<div className="h-48 flex items-center justify-center w-full">
 						<ScaleLoader
