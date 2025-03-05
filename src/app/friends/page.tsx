@@ -20,7 +20,6 @@ export default function Friends() {
 		});
 	}, []);
 
-	console.log(friendsState, 'friendsState');
 
 	return (
 		<div

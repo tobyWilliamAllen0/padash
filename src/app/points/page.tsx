@@ -3,10 +3,13 @@
 import CheckboxGroup from '@/components/CheckboxGroup';
 import FlipCardGame from '@/components/flipCardGame';
 import Tab from '@/components/Tab';
-import { useMemo, useRef } from 'react';
+import useFetch from '@/hooks/useFetch';
+import { useEffect, useMemo, useRef } from 'react';
 
 export default function Points() {
 	const checkboxGroupRef = useRef<{ getSelectedValues: () => string[] }>(null);
+
+	const [questionState, fetchQuestion] = useFetch();
 
 	const options = [
 		{ label: 'Option 1', value: 'option1' },
@@ -56,6 +59,14 @@ export default function Points() {
 		}
 	};
 
+	useEffect(() => {
+		fetchQuestion({
+			url: "admin/question",
+			method: "GET"
+		})
+	}, [])
+
+	console.log(questionState, 'questionState')
 	return (
 		<div className="p-4 overflow-auto" style={{ height: 'calc(100vh - 81px)' }}>
 			<div className="w-full flex flex-col justify-right items-start mt-4 gap-2 mb-6">
