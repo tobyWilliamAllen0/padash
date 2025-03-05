@@ -14,7 +14,7 @@ export const Question = () => {
 
 	const EXPIRY_TIMESTAMP = useMemo(() => {
 		const EXPIRY_TIMESTAMP = questionState?.response
-			? questionState?.response[0].active_time
+			? new Date(questionState?.response[0].active_time)
 			: getDateNow();
 
 		EXPIRY_TIMESTAMP.setHours(EXPIRY_TIMESTAMP.getHours() + 8);
