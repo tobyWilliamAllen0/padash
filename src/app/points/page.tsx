@@ -11,12 +11,6 @@ export default function Points() {
 
 	const [questionState, fetchQuestion] = useFetch();
 
-	const options = [
-		{ label: 'Option 1', value: 'option1' },
-		{ label: 'Option 2', value: 'option2' },
-		{ label: 'Option 3', value: 'option3' },
-	];
-
 	const tabs = useMemo(
 		() => [
 			{
@@ -35,16 +29,22 @@ export default function Points() {
 							<span>زمان باقی مانده:</span>
 							<span>48:00:00</span>
 						</div>
-						<div className="mt-4">
-							<span>
-								صندوق بخشی گروه مالی پاداش با نماد رو در کدام صنعت عمدتا سرمایه
-								گذاری می » پاداش کند؟ صنعت شیمیایی صنعت سیمان صنعت دارو صنعت
-								خودرو
-							</span>
-						</div>
-						<div className="mt-4">
-							<CheckboxGroup ref={checkboxGroupRef} options={options} />
-						</div>
+
+						{questionState.response && (
+							<>
+								<div className="mt-4">
+									<span>{questionState?.response[0].question}</span>
+								</div>
+								<div className="mt-4">
+									<CheckboxGroup
+										onChange={handleGetSelectedValues}
+										options={questionState?.response[0].options.map(
+											(option: string) => ({ label: option, value: option }),
+										)}
+									/>
+								</div>
+							</>
+						)}
 					</div>
 				),
 			},
@@ -52,21 +52,18 @@ export default function Points() {
 		[],
 	);
 
-	const handleGetSelectedValues = () => {
-		if (checkboxGroupRef.current) {
-			const selectedValues = checkboxGroupRef.current.getSelectedValues();
-			console.log('Selected Values:', selectedValues);
-		}
+	const handleGetSelectedValues = (value: string) => {
+		console.log('Selected Values:', value);
 	};
 
 	useEffect(() => {
 		fetchQuestion({
-			url: "admin/question",
-			method: "GET"
-		})
-	}, [])
+			url: 'admin/question',
+			method: 'GET',
+		});
+	}, []);
 
-	console.log(questionState, 'questionState')
+	console.log(questionState, 'questionState');
 	return (
 		<div className="p-4 overflow-auto" style={{ height: 'calc(100vh - 81px)' }}>
 			<div className="w-full flex flex-col justify-right items-start mt-4 gap-2 mb-6">
