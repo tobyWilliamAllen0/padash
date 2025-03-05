@@ -7,38 +7,21 @@ import CheckboxGroup from '@/components/CheckboxGroup';
 
 dayjs.extend(duration);
 
-const getDateNow = () => new Date('2025-03-25T20:04:53.718Z');
-
-export const Question = () => {
-	const [questionState, fetchQuestion] = useFetch();
-
+export const Question = ({ question }: any) => {
 	const EXPIRY_TIMESTAMP = useMemo(() => {
-		const EXPIRY_TIMESTAMP = questionState?.response
-			? new Date(questionState?.response[0].active_time)
-			: getDateNow();
+		const EXPIRY_TIMESTAMP = new Date(question.active_time);
 
 		return EXPIRY_TIMESTAMP;
-	}, [questionState?.response]);
+	}, [question]);
 
 	const { seconds, isRunning, pause, minutes, hours } = useTimer({
-		expiryTimestamp: questionState?.response
-			? questionState?.response[0].active_time
-			: EXPIRY_TIMESTAMP,
+		expiryTimestamp: EXPIRY_TIMESTAMP,
 		onExpire: () => pause(),
 	});
 
 	const handleGetSelectedValues = (value: string) => {
 		console.log('Selected Values:', value);
 	};
-
-	useEffect(() => {
-		fetchQuestion({
-			url: 'admin/question',
-			method: 'GET',
-		});
-	}, []);
-
-	console.log(questionState, 'questionState');
 
 	return (
 		<div>
@@ -58,21 +41,18 @@ export const Question = () => {
 				</div>
 			)}
 
-			{questionState.response && (
-				<>
-					<div className="mt-4">
-						<span>{questionState?.response[0].question}</span>
-					</div>
-					<div className="mt-4">
-						<CheckboxGroup
-							onChange={handleGetSelectedValues}
-							options={questionState?.response[0].options.map(
-								(option: string) => ({ label: option, value: option }),
-							)}
-						/>
-					</div>
-				</>
-			)}
+			<div className="mt-4">
+				<span>{question.question}</span>
+			</div>
+			<div className="mt-4">
+				<CheckboxGroup
+					onChange={handleGetSelectedValues}
+					options={question.options.map((option: string) => ({
+						label: option,
+						value: option,
+					}))}
+				/>
+			</div>
 		</div>
 	);
 };

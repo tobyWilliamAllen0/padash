@@ -4,8 +4,20 @@ import FlipCardGame from '@/components/flipCardGame';
 import Tab from '@/components/Tab';
 import { useEffect, useMemo, useRef } from 'react';
 import { Question } from './content/question';
+import useFetch from '@/hooks/useFetch';
 
 export default function Points() {
+
+	const [questionState, fetchQuestion] = useFetch();
+
+	
+	useEffect(() => {
+		fetchQuestion({
+			url: 'admin/question',
+			method: 'GET',
+		});
+	}, []);
+
 	const tabs = useMemo(
 		() => [
 			{
@@ -18,7 +30,7 @@ export default function Points() {
 			},
 			{
 				label: 'سوال',
-				content: <Question />,
+				content: questionState?.isLoading ? "" : <Question question={questionState?.response[0]}/>,
 			},
 		],
 		[],
