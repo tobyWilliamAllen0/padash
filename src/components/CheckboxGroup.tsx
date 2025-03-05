@@ -24,6 +24,10 @@ const CheckboxGroup = forwardRef((props: CheckboxGroupProps, ref) => {
 			{options.map((option, index) => {
 				const answereStyle = (index: number) => {
 					if (showCorrectAnswer) {
+						console.log(showCorrectAnswer, 'showCorrectAnswer');
+						console.log(selectedValue, 'selectedValue');
+						console.log(index, 'index');
+						console.log(wasCorrect, 'wasCorrect');
 						if (wasCorrect && index === selectedValue) {
 							return {
 								background: 'linear-gradient(270deg, #00bb04, #ffffff00)',

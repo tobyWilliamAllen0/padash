@@ -57,7 +57,8 @@ export const Question = ({ question, onAnswer }: any) => {
 
 	const questionJson = parseCookies()['question'];
 	const questionFromCookies = questionJson ? JSON.parse(questionJson) : {};
-
+    console.log(questionFromCookies, 'questionFromCookies')
+    console.log(question, 'question')
 	return (
 		<div key={question._id}>
 			<div className="mt-4">
@@ -81,7 +82,7 @@ export const Question = ({ question, onAnswer }: any) => {
 							label: option,
 							value: option,
 						}))}
-						wasCorrect={answerState?.response ?? null}
+						wasCorrect={questionFromCookies?.wasCorrect ?? null}
 						yourAnswer={
 							questionFromCookies.id === question?._id
 								? questionFromCookies?.answer
