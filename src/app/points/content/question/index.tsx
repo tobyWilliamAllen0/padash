@@ -7,7 +7,7 @@ import CheckboxGroup from '@/components/CheckboxGroup';
 
 dayjs.extend(duration);
 
-const getDateNow = () => new Date();
+const getDateNow = () => new Date('2025-03-25T20:04:53.718Z');
 
 export const Question = () => {
 	const [questionState, fetchQuestion] = useFetch();
@@ -16,8 +16,6 @@ export const Question = () => {
 		const EXPIRY_TIMESTAMP = questionState?.response
 			? new Date(questionState?.response[0].active_time)
 			: getDateNow();
-
-		EXPIRY_TIMESTAMP.setHours(EXPIRY_TIMESTAMP.getHours() + 8);
 
 		return EXPIRY_TIMESTAMP;
 	}, [questionState?.response]);
