@@ -5,12 +5,11 @@ import Tab from '@/components/Tab';
 import { useEffect, useMemo, useRef } from 'react';
 import { Question } from './content/question';
 import useFetch from '@/hooks/useFetch';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 
 export default function Points() {
-
 	const [questionState, fetchQuestion] = useFetch();
 
-	
 	useEffect(() => {
 		fetchQuestion({
 			url: 'admin/question',
@@ -30,7 +29,29 @@ export default function Points() {
 			},
 			{
 				label: 'سوال',
-				content: questionState?.isLoading ? "" : <Question question={questionState?.response[0]}/>,
+				content: questionState?.isLoading ? (
+					<div className="h-48 flex items-center justify-center w-full">
+						<ScaleLoader
+							color="#fff"
+							loading={questionState.isLoading}
+							aria-label="Loading Spinner"
+							data-testid="loader"
+							height={15}
+						/>
+					</div>
+				) : questionState?.isSucceed ? (
+					<Question question={questionState?.response[0]} />
+				) : (
+					<div className="h-48 flex items-center justify-center w-full">
+						<ScaleLoader
+							color="#fff"
+							loading={questionState.isLoading}
+							aria-label="Loading Spinner"
+							data-testid="loader"
+							height={15}
+						/>
+					</div>
+				),
 			},
 		],
 		[],
@@ -48,6 +69,13 @@ export default function Points() {
 					<span className="text-[#fafafa]"> امتیاز دریافت کنید </span>
 				</span>
 			</div>
+			<ScaleLoader
+				color="#fff"
+				loading={questionState.isLoading}
+				aria-label="Loading Spinner"
+				data-testid="loader"
+				height={15}
+			/>
 			<Tab tabs={tabs} />
 		</div>
 	);

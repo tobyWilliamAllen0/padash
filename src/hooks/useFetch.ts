@@ -4,6 +4,8 @@ import { Method } from 'axios';
 
 interface State {
 	isLoading: boolean;
+	isSucceed: boolean;
+	isFailed: boolean;
 	error: unknown;
 	response: any;
 }
@@ -27,11 +29,20 @@ interface Options extends RequestInit {
 const dataFetchReducer = (state: State, action: Action) => {
 	switch (action.type) {
 		case 'FETCH_INIT':
-			return { ...state, isLoading: true, error: null, response: null };
+			return {
+				...state,
+				isLoading: true,
+				isSucceed: false,
+				isFailed: false,
+				error: null,
+				response: null,
+			};
 		case 'FETCH_SUCCESS':
 			return {
 				...state,
 				isLoading: false,
+				isSucceed: true,
+				isFailed: false,
 				error: null,
 				response: action.payload,
 			};
@@ -39,6 +50,8 @@ const dataFetchReducer = (state: State, action: Action) => {
 			return {
 				...state,
 				isLoading: false,
+				isSucceed: false,
+				isFailed: true,
 				error: action.payload,
 				response: null,
 			};
@@ -52,6 +65,8 @@ function useFetch(
 ): [State, (options: Options) => Promise<unknown>] {
 	const [state, dispatch] = useReducer(dataFetchReducer, {
 		isLoading: false,
+		isSucceed: false,
+		isFailed: false,
 		error: null,
 		response: null,
 	});
