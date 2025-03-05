@@ -57,8 +57,7 @@ export const Question = ({ question, onAnswer }: any) => {
 
 	const questionJson = parseCookies()['question'];
 	const questionFromCookies = questionJson ? JSON.parse(questionJson) : {};
-    console.log(questionFromCookies, 'questionFromCookies')
-    console.log(question, 'question')
+
 	return (
 		<div key={question._id}>
 			<div className="mt-4">
