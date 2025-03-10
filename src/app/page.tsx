@@ -1,4 +1,5 @@
 'use client';
+import BottomNavbar from '@/components/bottomNavbar';
 import Button from '@/components/button';
 import { Input } from '@/components/input';
 import StyledPinInput from '@/components/pinInput';
@@ -246,6 +247,8 @@ export default function Home() {
 					</div>
 				)}
 			</Drawer>
+			<BottomNavbar />
+
 		</div>
 	);
 }

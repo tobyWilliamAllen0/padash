@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Script from 'next/script';
-import BottomNavbar from '@/components/bottomNavbar';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -34,8 +34,7 @@ export default function RootLayout({
 				style={{ background: 'linear-gradient(0deg, #0a0a0a, #16140c)' }}
 				dir="rtl"
 			>
-				{children}
-				<BottomNavbar />
+				<AntdRegistry>{children}</AntdRegistry>
 			</body>
 		</html>
 	);
