@@ -1,5 +1,6 @@
 import axios, { Method } from 'axios';
 import { parseCookies } from 'nookies';
+import { toast } from 'react-toastify';
 
 function formatUrl(path: string) {
 	const adjustedPath = path[0] !== '/' ? `/${path}` : path;
@@ -61,6 +62,6 @@ async function ApiClient(path: string, options: any) {
 		fetchOptions.headers['Accept'] = 'application/json';
 	}
 
-	return axios({ url, ...options });
+	return axios({ url, ...options })
 }
 export default ApiClient;

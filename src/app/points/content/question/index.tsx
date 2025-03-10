@@ -29,7 +29,7 @@ export const Question = ({ question, onAnswer }: any) => {
 			question._id,
 			question.options.findIndex((option: string) => option === value),
 		);
-		const answer = question.options.findIndex(
+		const answer = question?.options.findIndex(
 			(option: string) => option === value,
 		);
 		setAnswer(answer);
@@ -37,7 +37,7 @@ export const Question = ({ question, onAnswer }: any) => {
 			null,
 			'question',
 			JSON.stringify({
-				id: question._id,
+				id: question?._id,
 				answer: answer,
 			}),
 			{
@@ -59,9 +59,9 @@ export const Question = ({ question, onAnswer }: any) => {
 	const questionFromCookies = questionJson ? JSON.parse(questionJson) : {};
 
 	return (
-		<div key={question._id}>
+		<div key={question?._id}>
 			<div className="mt-4">
-				<span>{question.question}</span>
+				<span>{question?.question}</span>
 			</div>
 			<div className="mt-4">
 				{answerState.isLoading ? (
@@ -77,10 +77,10 @@ export const Question = ({ question, onAnswer }: any) => {
 				) : (
 					<CheckboxGroup
 						onChange={handleGetSelectedValues}
-						options={question.options.map((option: string) => ({
+						options={question?.options.map((option: string) => ({
 							label: option,
 							value: option,
-						}))}
+						})) ?? []}
 						wasCorrect={questionFromCookies?.wasCorrect ?? null}
 						yourAnswer={
 							questionFromCookies.id === question?._id

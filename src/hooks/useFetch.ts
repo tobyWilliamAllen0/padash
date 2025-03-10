@@ -1,6 +1,7 @@
 import { useReducer } from 'react';
 import ApiClient from '../lib/apiClient';
 import { Method } from 'axios';
+import { toast } from 'react-toastify';
 
 interface State {
 	isLoading: boolean;
@@ -78,6 +79,12 @@ function useFetch(
 			action && action.onSuccess && action.onSuccess(res.data.result);
 			dispatch({ type: 'FETCH_SUCCESS', payload: res.data.result });
 		} catch (e: unknown) {
+			if (e?.response?.data?.message !== "عضویت شما در این کانال پیدا نشد")  {
+				toast.error(
+					e?.response?.data?.message ?? 'متاسفانه مشکلی به وجود آمده است',
+				);
+			}
+			
 			action && action.onError && action.onError(e);
 			dispatch({ type: 'FETCH_FAILURE', payload: e });
 		}
