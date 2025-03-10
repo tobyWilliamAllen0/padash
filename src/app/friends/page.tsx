@@ -78,10 +78,7 @@ export default function Friends() {
 					})}
 				</div>
 			</div>
-			<button
-				className="rounded-md bg-[#1f9ee7] text-white font-bold text-lg w-full mt-6 p-2"
-				href="?startApp=ref_NyWpHTaN&startapp=ref_NyWpHTaN"
-			>
+			<button className="rounded-md bg-[#1f9ee7] text-white font-bold text-lg w-full mt-6 p-2">
 				دعوت از دوستان
 			</button>
 		</div>
