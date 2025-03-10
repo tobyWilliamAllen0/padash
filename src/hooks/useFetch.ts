@@ -78,7 +78,7 @@ function useFetch(
 			const res = await ApiClient(url, options);
 			action && action.onSuccess && action.onSuccess(res.data.result);
 			dispatch({ type: 'FETCH_SUCCESS', payload: res.data.result });
-		} catch (e: unknown) {
+		} catch (e: any) {
 			if (e?.response?.data?.message !== "عضویت شما در این کانال پیدا نشد")  {
 				toast.error(
 					e?.response?.data?.message ?? 'متاسفانه مشکلی به وجود آمده است',
