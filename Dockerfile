@@ -35,9 +35,6 @@ COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/package.json ./package.json
 COPY --from=base /app/public ./public
 
-# Only needed if you use the next/image optimization API
-COPY --from=base /app/next.config.js ./next.config.js
-
 USER nextjs
 
 EXPOSE 8081
