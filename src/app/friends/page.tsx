@@ -90,6 +90,14 @@ export default function Friends() {
 					</span>
 				</div>
 				<div className="w-full flex flex-col justify-between items-center mt-4 p-2 bg-[#151515] rounded-md">
+					{friendsState?.response?.length === 0 && (
+						<div>
+							{' '}
+							<span className="text-xl text-[#5b5b5b] text-right font-bold">
+								شما هنوز از <span className="text-[#fafafa]">هیچکس</span> دعوت نکرده اید.
+							</span>
+						</div>
+					)}
 					{friendsState?.response?.map((friend: Friend, index: number) => {
 						return (
 							<div
