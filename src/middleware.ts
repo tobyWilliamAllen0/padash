@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // List of paths that require authentication
-const protectedPaths = ['/dashboard'];
+const protectedPaths = ['/admin'];
 
 export function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
 
 		if (!authToken) {
 			// Redirect to login if no token is found
-			const loginUrl = new URL('/admin/dashboard/login', request.url);
+			const loginUrl = new URL('/admin/login', request.url);
 			loginUrl.searchParams.set('from', pathname);
 			return NextResponse.redirect(loginUrl);
 		}

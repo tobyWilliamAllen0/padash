@@ -17,7 +17,6 @@ export default function Points() {
 		});
 	}, []);
 
-	console.log(questionState);
 	const tabs = useMemo(
 		() => [
 			{
@@ -75,13 +74,7 @@ export default function Points() {
 					<span className="text-[#fafafa]"> امتیاز دریافت کنید </span>
 				</span>
 			</div>
-			<ScaleLoader
-				color="#fff"
-				loading={questionState.isLoading}
-				aria-label="Loading Spinner"
-				data-testid="loader"
-				height={15}
-			/>
+			
 			<Tab tabs={tabs} />
 		</div>
 	);

@@ -19,6 +19,7 @@ export default function Home() {
 	const [hash, setHash] = useState<string>('');
 	const [isVisible, setIsVisible] = useState(false);
 	const [phoneNumber, setPhoneNumber] = useState<string>('');
+	const [telegramIsActive, setTelegramIsActive] = useState<boolean>(false);
 	const [step, setStep] = useState<1 | 2>(1);
 	const [refCode, setRefCode] = useState<string | null>(null);
 	const [mobilePin, setMobilePin] = useState<string[]>(INITIAL_PIN);
@@ -133,13 +134,18 @@ export default function Home() {
 	useEffect(() => {
 		if (socialsState?.response) {
 			socialsState.response.map((response: any) => {
-				checkSocial({
-					url: 'social/check-join',
-					method: 'POST',
-					data: {
-						socialId: response._id,
-					},
-				});
+				if (response.type === 'telegram' && response.status === 'active') {
+					setTelegramIsActive(true);
+				}
+				if (response.status !== 'active') {
+					checkSocial({
+						url: 'social/check-join',
+						method: 'POST',
+						data: {
+							socialId: response._id,
+						},
+					});
+				}
 			});
 		}
 	}, [socialsState]);
@@ -201,7 +207,11 @@ export default function Home() {
 					onClick={() => router.push('https://t.me/padash_sarmayeh')}
 				>
 					<div className="flex flex-row items-center gap-1">
-						<Star1 size="18" color="#fcfcfc" variant="Bulk" />
+						<Star1
+							size="18"
+							color={telegramIsActive ? '#4d9ce2' : '#fcfcfc'}
+							variant="Bulk"
+						/>
 						<span className="text-base font-bold text-white text-right">
 							کانال تلگرام گروه مالی پاداش
 						</span>

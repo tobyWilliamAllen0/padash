@@ -91,6 +91,7 @@ export default function Tops() {
 							className={`w-full flex flex-row items-center justify-between bg-[${colors(
 								index,
 							)}] h-16 p-2 ${index === 0 ? 'rounded-t-lg' : ''}`}
+							key={topUser.username}
 						>
 							<span className="text-base text-[#fff] ">
 								# {Number(index + 1).toLocaleString('fa-IR')}
