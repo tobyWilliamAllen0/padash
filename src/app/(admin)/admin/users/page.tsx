@@ -101,44 +101,44 @@ function Users() {
 
 	const columns = [
 		{
-			title: 'Username',
+			title: 'نام کاربری',
 			dataIndex: 'username',
 			key: 'username',
 			editable: false,
 			inputType: 'text',
 		},
 		{
-			title: 'First Name',
+			title: 'نام',
 			dataIndex: 'first_name',
 			key: 'first_name',
 			editable: false,
 		},
 		{
-			title: 'Last Name',
+			title: 'نام خانوادگی',
 			dataIndex: 'last_name',
 			key: 'last_name',
 			editable: false,
 		},
 		{
-			title: 'Mobile Number',
+			title: 'شماره موبایل',
 			dataIndex: 'mobile_number',
 			key: 'mobile_number',
 			editable: false,
 		},
 		{
-			title: 'Referral Code',
+			title: 'کد معرفی',
 			dataIndex: 'referral_code',
 			key: 'referral_code',
 			editable: false,
 		},
 		{
-			title: 'Status',
+			title: 'وضعیت',
 			dataIndex: 'status',
 			key: 'status',
 			editable: false,
 		},
 		{
-			title: 'Total Score',
+			title: 'امتیازات',
 			dataIndex: 'total_scores',
 			key: 'total_scores',
 			editable: false,
@@ -161,7 +161,7 @@ function Users() {
 					onClick={downloadUsers}
 					loading={downloadUsersState?.isLoading}
 				>
-					Download
+					دانلود اکسل
 				</Button>
 				<Table
 					className="w-full h-full p-4"

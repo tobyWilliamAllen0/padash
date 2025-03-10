@@ -176,26 +176,26 @@ function Social() {
 
 	const columns = [
 		{
-			title: 'Type',
+			title: 'نوع',
 			dataIndex: 'type',
 			key: 'type',
 			editable: true,
 			inputType: 'text',
 		},
 		{
-			title: 'URL',
+			title: 'آدرس',
 			dataIndex: 'url',
 			key: 'url',
 			editable: true,
 		},
 		{
-			title: 'Social User Name',
+			title: 'نام کاربری شبکه اجتماعی',
 			dataIndex: 'social_user_name',
 			key: 'social_user_name',
 			editable: true,
 		},
 		{
-			title: 'Actions',
+			title: 'اقدامات',
 			width: 180,
 			render: (_: any, record: DataType) => {
 				const editable = isEditing(record);
@@ -207,10 +207,10 @@ function Social() {
 									onClick={() => save(record._id)}
 									style={{ marginInlineEnd: 8 }}
 								>
-									Save
+									ذخیره
 								</Typography.Link>
-								<Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-									<a>Cancel</a>
+								<Popconfirm title="اطمینان دارید" onConfirm={cancel}>
+									<a>لفو</a>
 								</Popconfirm>
 							</span>
 						) : (
@@ -218,15 +218,15 @@ function Social() {
 								disabled={editingKey !== ''}
 								onClick={() => edit(record)}
 							>
-								Edit
+								ویرایش
 							</Typography.Link>
 						)}
 						<span className="font-medium cursor-pointer text-red-700">
 							<Popconfirm
-								title="Sure to cancel?"
+								title="اطمینان دارید"
 								onConfirm={() => deleteRow(record._id)}
 							>
-								<a>Delete</a>
+								<a>حذف</a>
 							</Popconfirm>
 						</span>
 					</div>
@@ -256,10 +256,10 @@ function Social() {
 			<Sidebar />
 			<div className="flex flex-col p-4 gap-6 w-full h-screen">
 				<Button type="primary" className="w-fit" onClick={showModal}>
-					Add Social
+					اضافه کردن شبکه{' '}
 				</Button>
 				<Modal
-					title="Add Question"
+					title="اضافه کردن شبکه"
 					open={isModalOpen}
 					onOk={handleOk}
 					onCancel={handleCancel}
@@ -276,7 +276,7 @@ function Social() {
 								},
 							]}
 						>
-							<Input placeholder="Type" />
+							<Input placeholder="نوع" />
 						</Form.Item>
 
 						<Form.Item
@@ -289,7 +289,7 @@ function Social() {
 								},
 							]}
 						>
-							<Input placeholder="URL" />
+							<Input placeholder="آدرس" />
 						</Form.Item>
 						<Form.Item
 							name="social_user_name"
@@ -301,7 +301,7 @@ function Social() {
 								},
 							]}
 						>
-							<Input placeholder="Social User Name" />
+							<Input placeholder="نام کاربری شبکه اجتماعی" />
 						</Form.Item>
 					</Form>
 				</Modal>

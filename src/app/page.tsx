@@ -6,7 +6,7 @@ import StyledPinInput from '@/components/pinInput';
 import useFetch from '@/hooks/useFetch';
 import { ArrowRight2, Star1 } from 'iconsax-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { setCookie } from 'nookies';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Drawer from 'react-bottom-drawer';
@@ -16,11 +16,15 @@ const INITIAL_PIN = ['', '', '', '', '', ''];
 
 export default function Home() {
 	const router = useRouter();
-	const [hash, setHash] = useState<string>('user=%7B%22id%22%3A54200739%2C%22first_name%22%3A%22Alireza%22%2C%22last_name%22%3A%22T%F0%9F%98%B6%E2%80%8D%F0%9F%8C%AB%EF%B8%8F%22%2C%22username%22%3A%22Alirezatahani%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FaAyicCE7F5eB_SotoFbqxPKvMBHC9yaN3qC9sfiO5vI.svg%22%7D&chat_instance=-1916207976170099950&chat_type=sender&auth_date=1739546970&signature=zRO5sAFS86L3f2aBUdNpCD66dVbXa7GsMmeCjj7eOzMbrUL8WXjim9-bbKTmQf0qWHzftFO9DUnWwRXqPGaDCQ&hash=99570ed1c34ab9f1ce8b1228b986db81e6fc0ddc575f87f8432844b7259b746a');
+	const [hash, setHash] = useState<string>(
+		'user=%7B%22id%22%3A54200739%2C%22first_name%22%3A%22Alireza%22%2C%22last_name%22%3A%22T%F0%9F%98%B6%E2%80%8D%F0%9F%8C%AB%EF%B8%8F%22%2C%22username%22%3A%22Alirezatahani%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FaAyicCE7F5eB_SotoFbqxPKvMBHC9yaN3qC9sfiO5vI.svg%22%7D&chat_instance=-1916207976170099950&chat_type=sender&auth_date=1739546970&signature=zRO5sAFS86L3f2aBUdNpCD66dVbXa7GsMmeCjj7eOzMbrUL8WXjim9-bbKTmQf0qWHzftFO9DUnWwRXqPGaDCQ&hash=99570ed1c34ab9f1ce8b1228b986db81e6fc0ddc575f87f8432844b7259b746a',
+	);
 	const [isVisible, setIsVisible] = useState(false);
 	const [phoneNumber, setPhoneNumber] = useState<string>('');
 	const [step, setStep] = useState<1 | 2>(1);
+	const [refCode, setRefCode] = useState<string | null>(null);
 	const [mobilePin, setMobilePin] = useState<string[]>(INITIAL_PIN);
+	const searchParams = useSearchParams(); // Use search params hook
 
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -74,6 +78,26 @@ export default function Home() {
 			});
 		}
 	};
+	const getRefCodeFromUrl = useCallback(() => {
+		// Check for startApp parameter (case sensitive)
+		let code = searchParams.get('startApp');
+
+		// If not found, check for startapp parameter (lowercase)
+		if (!code) {
+			code = searchParams.get('startapp');
+		}
+
+		if (code) {
+			console.log('Referral code found:', code);
+			setRefCode(code);
+
+			// Store the referral code in localStorage for later use
+			localStorage.setItem('referralCode', code);
+
+			// You might want to include this in your API calls
+			// For example, when submitting phone number
+		}
+	}, [searchParams]);
 
 	useEffect(() => {
 		const interval = setTimeout(() => {
@@ -81,6 +105,7 @@ export default function Home() {
 				typeof window !== 'undefined' ? (window as any)?.Telegram?.WebApp : {};
 
 			if (app) {
+				getRefCodeFromUrl();
 				console.log(app.initData, 'app.initData');
 				setHash(app.initData);
 
@@ -101,6 +126,7 @@ export default function Home() {
 				method: 'POST',
 				data: {
 					hash: hash.toString(),
+					...(refCode ? { referral_code: refCode } : {}),
 				},
 			});
 		}
@@ -248,7 +274,6 @@ export default function Home() {
 				)}
 			</Drawer>
 			<BottomNavbar />
-
 		</div>
 	);
 }

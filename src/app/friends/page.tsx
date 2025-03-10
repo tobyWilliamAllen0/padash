@@ -2,7 +2,10 @@
 
 import useFetch from '@/hooks/useFetch';
 import { Profile2User } from 'iconsax-react';
-import { useEffect } from 'react';
+import Link from 'next/link';
+import { parseCookies } from 'nookies';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface Friend {
 	username: 'string';
@@ -11,9 +14,48 @@ interface Friend {
 	score: number;
 }
 export default function Friends() {
+	const [refCode, setRefCode] = useState('');
 	const [friendsState, fetchFriends] = useFetch();
 
+	const copyToClipboard = async (text: string): Promise<boolean> => {
+		try {
+			// Modern approach - Clipboard API
+			if (navigator.clipboard && navigator.clipboard.writeText) {
+				await navigator.clipboard.writeText(text);
+				return true;
+			}
+
+			// Fallback for older browsers
+			const textArea = document.createElement('textarea');
+			textArea.value = text;
+
+			// Make the textarea out of viewport
+			textArea.style.position = 'fixed';
+			textArea.style.left = '-999999px';
+			textArea.style.top = '-999999px';
+			document.body.appendChild(textArea);
+
+			// Select and copy the text
+			textArea.focus();
+			textArea.select();
+			const success = document.execCommand('copy');
+
+			// Clean up
+			document.body.removeChild(textArea);
+
+			return success;
+		} catch (err) {
+			console.error('Failed to copy text: ', err);
+			return false;
+		}
+	};
+
 	useEffect(() => {
+		const userProfile = parseCookies()['userProfile'];
+		const referralCode = userProfile
+			? JSON.parse(userProfile)?.user?.referral_code
+			: '';
+		setRefCode(referralCode);
 		fetchFriends({
 			url: 'user/referrals',
 			method: 'GET',
@@ -78,7 +120,16 @@ export default function Friends() {
 					})}
 				</div>
 			</div>
-			<button className="rounded-md bg-[#1f9ee7] text-white font-bold text-lg w-full mt-6 p-2">
+
+			<button
+				className="rounded-md bg-[#1f9ee7] text-white font-bold text-lg w-full mt-6 p-2"
+				onClick={() => {
+					copyToClipboard(
+						`https://t.me/padash_sarmayeh?startApp=${refCode}&startapp=${refCode}`,
+					);
+					toast.success('کد معرف شما با موفقیت کپی شد');
+				}}
+			>
 				دعوت از دوستان
 			</button>
 		</div>

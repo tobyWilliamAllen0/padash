@@ -14,7 +14,7 @@ export default function Sidebar() {
 
 	const menuItems: MenuItem[] = [
 		{
-			name: 'Questions',
+			name: 'سوالات',
 			href: '/admin/questions',
 			icon: (
 				<svg
@@ -28,7 +28,7 @@ export default function Sidebar() {
 			),
 		},
 		{
-			name: 'Social',
+			name: 'شبکه های اجتماعی',
 			href: '/admin/social',
 			icon: (
 				<svg
@@ -46,7 +46,7 @@ export default function Sidebar() {
 			),
 		},
 		{
-			name: 'Users',
+			name: 'کاربران',
 			href: '/admin/users',
 			icon: (
 				<svg

@@ -182,13 +182,13 @@ function Questions() {
 
 	const columns = [
 		{
-			title: 'Question',
+			title: 'سوال',
 			dataIndex: 'question',
 			key: 'question',
 			editable: true,
 		},
 		{
-			title: 'Options',
+			title: 'جواب ها',
 			dataIndex: 'options',
 			key: 'options',
 			editable: true,
@@ -202,13 +202,13 @@ function Questions() {
 			),
 		},
 		{
-			title: 'Answer',
+			title: 'جواب',
 			dataIndex: 'answer',
 			key: 'answer',
 			editable: true,
 		},
 		{
-			title: 'Active Time',
+			title: 'زمان فعال شدن',
 			dataIndex: 'active_time',
 			key: 'active_time',
 			editable: true,
@@ -218,7 +218,7 @@ function Questions() {
 		},
 
 		{
-			title: 'Actions',
+			title: 'اقدامات',
 			width: 180,
 			render: (_: any, record: DataType) => {
 				const editable = isEditing(record);
@@ -230,10 +230,10 @@ function Questions() {
 									onClick={() => save(record._id)}
 									style={{ marginInlineEnd: 8 }}
 								>
-									Save
+									ذخیره
 								</Typography.Link>
-								<Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-									<a>Cancel</a>
+								<Popconfirm title="اطمینان دارید" onConfirm={cancel}>
+									<a>لفو</a>
 								</Popconfirm>
 							</span>
 						) : (
@@ -241,15 +241,15 @@ function Questions() {
 								disabled={editingKey !== ''}
 								onClick={() => edit(record)}
 							>
-								Edit
+								ویرایش
 							</Typography.Link>
 						)}
 						<span className="font-medium cursor-pointer text-red-700">
 							<Popconfirm
-								title="Sure to cancel?"
+								title="اطمینان دارید"
 								onConfirm={() => deleteQuestion(record._id)}
 							>
-								<a>Delete</a>
+								<a>حذف</a>
 							</Popconfirm>
 						</span>
 					</div>
@@ -279,10 +279,10 @@ function Questions() {
 			<Sidebar />
 			<div className="flex flex-col p-4 gap-6 w-full h-screen">
 				<Button type="primary" className="w-fit" onClick={showModal}>
-					Add Question
+					اضافه کردن سوال
 				</Button>
 				<Modal
-					title="Add Question"
+					title="اضافه کردن سوال"
 					open={isModalOpen}
 					onOk={handleOk}
 					onCancel={handleCancel}
@@ -299,7 +299,7 @@ function Questions() {
 								},
 							]}
 						>
-							<Input placeholder="Question" />
+							<Input placeholder="سوال" />
 						</Form.Item>
 
 						<Form.Item
@@ -312,7 +312,7 @@ function Questions() {
 								},
 							]}
 						>
-							<Select mode="tags" placeholder="Options" options={[]} />
+							<Select mode="tags" placeholder="جواب ها" options={[]} />
 						</Form.Item>
 						<Form.Item
 							name="answer"
@@ -324,7 +324,7 @@ function Questions() {
 								},
 							]}
 						>
-							<Input placeholder="Answer" />
+							<Input placeholder="جواب " />
 						</Form.Item>
 						<Form.Item
 							name="active_time"
