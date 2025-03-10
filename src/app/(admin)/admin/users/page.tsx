@@ -2,7 +2,6 @@
 
 import Sidebar from '@/components/Sidebar';
 import useFetch from '@/hooks/useFetch';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {
 	Form,
@@ -15,307 +14,166 @@ import {
 	Button,
 	Modal,
 } from 'antd';
-import type { TableProps } from 'antd';
+import withAdminAuth from '@/components/withAdminAuth';
 
-interface DataType {
-	active_time: string;
-	answer: number;
-	answered_count: number;
-	createdAt: string;
-	options: string[];
-	question: string;
-	_id: string;
-}
-
-interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
-	editing: boolean;
-	dataIndex: string;
-	title: any;
-	inputType: 'number' | 'text' | 'tags';
-	record: DataType;
-	index: number;
-}
-
-const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
-	editing,
-	dataIndex,
-	title,
-	inputType,
-	record,
-	index,
-	children,
-	...restProps
-}) => {
-	const inputNode =
-		inputType === 'tags' ? (
-			<Select
-				mode="tags"
-				placeholder="Options"
-				options={record.options.map((tag) => ({
-					label: tag,
-					value: tag,
-				}))}
-			/>
-		) : inputType === 'number' ? (
-			<InputNumber />
-		) : (
-			<Input />
-		);
-
-	return (
-		<td {...restProps}>
-			{editing ? (
-				<Form.Item
-					name={dataIndex}
-					style={{ margin: 0 }}
-					rules={[
-						{
-							required: true,
-							message: `Please Input ${title}!`,
-						},
-					]}
-				>
-					{inputNode}
-				</Form.Item>
-			) : (
-				children
-			)}
-		</td>
-	);
-};
-
-export default function Users() {
+function Users() {
 	const [tableParams, setTableParams] = useState({
 		current: 1,
 		pageSize: 10,
 	});
-	const [editingKey, setEditingKey] = useState('');
-	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const [SocialState, fetchSocial] = useFetch();
-	const [deleteSocialState, deleteSocial] = useFetch({
-		onSuccess: () => {
-			fetchSocial({
-				url: `/admin/social?pg=${tableParams.current}&lm=${tableParams.pageSize}`,
-				method: 'GET',
-			});
-		},
-	});
-	const [editSocialState, editSocial] = useFetch();
-	const [addSocialtate, addSocial] = useFetch({
-		onSuccess: () => {
-			fetchSocial({
-				url: `/admin/social?pg=${tableParams.current}&lm=${tableParams.pageSize}`,
-				method: 'GET',
-			});
-			setIsModalOpen(false);
-		},
-	});
-	const [form] = Form.useForm();
-
-	const isEditing = (record: DataType) => record._id === editingKey;
-
-	const edit = (record: Partial<DataType> & { _id: React.Key }) => {
-		form.setFieldsValue({ ...record });
-		setEditingKey(record._id);
-	};
-
-	const cancel = () => {
-		setEditingKey('');
-	};
-	const deleteRow = (id: string) => {
-		deleteSocial({
-			url: `/admin/social/${id}`,
-			method: 'DELETE',
-		});
-	};
-
-	const save = async (key: React.Key) => {
-		try {
-			const row = (await form.validateFields()) as DataType;
-			editSocial({
-				url: `/admin/social/${key}`,
-				method: 'PATCH',
-				data: row,
-			});
-			setEditingKey('');
-		} catch (errInfo) {
-			console.log('Validate Failed:', errInfo);
-		}
-	};
-
-	const showModal = () => {
-		setIsModalOpen(true);
-	};
-
-	const handleOk = async () => {
-		try {
-			const row = (await form.validateFields()) as DataType;
-
-			addSocial({
-				url: '/admin/social',
-				method: 'POST',
-				data: row,
-			});
-		} catch (e) {}
-	};
-
-	const handleCancel = () => {
-		setIsModalOpen(false);
-	};
+	const [usersState, fetchUsers] = useFetch();
+	const [downloadUsersState, fetchDownloadUsers] = useFetch();
 
 	useEffect(() => {
-		fetchSocial({
-			url: `/admin/social?pg=${tableParams.current}&lm=${tableParams.pageSize}`,
+		fetchUsers({
+			url: `admin/user?pg=${tableParams.current}&lm=${tableParams.pageSize}`,
 			method: 'GET',
 		});
 	}, []);
 
+	const downloadUsers = () => {
+		fetchDownloadUsers({
+			url: `admin/user?pg=${tableParams.current}&lm=${tableParams.pageSize}&csv=true`,
+			method: 'GET',
+		});
+	};
+
+	const downloadCSV = (data: any[], filename: string = 'users_export.csv') => {
+		// If no data, return early
+		if (!data) {
+			console.warn('No data to export');
+			return;
+		}
+
+		let csvContent: string;
+
+		// Handle case where data is already a CSV string
+		if (typeof data === 'string') {
+			csvContent = data;
+		}
+		// Handle case where data is an array of objects
+		else if (Array.isArray(data) && data.length > 0) {
+			// Get headers from the first object's keys
+			const headers = Object.keys(data[0]);
+
+			// Create CSV header row
+			csvContent = headers.join(',') + '\n';
+
+			// Add data rows
+			data.forEach((item) => {
+				const row = headers
+					.map((header) => {
+						// Handle values that might contain commas or quotes
+						let value = item[header]?.toString() || '';
+						if (
+							value.includes(',') ||
+							value.includes('"') ||
+							value.includes('\n')
+						) {
+							value = `"${value.replace(/"/g, '""')}"`;
+						}
+						return value;
+					})
+					.join(',');
+				csvContent += row + '\n';
+			});
+		} else {
+			console.warn('Invalid data format for CSV export');
+			return;
+		}
+
+		// Create a Blob with the CSV content
+		const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+		// Create a download link
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement('a');
+		link.setAttribute('href', url);
+		link.setAttribute('download', filename);
+		link.style.visibility = 'hidden';
+
+		// Add to DOM, trigger click and remove
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+	};
+
 	const columns = [
 		{
-			title: 'Type',
-			dataIndex: 'type',
-			key: 'type',
-			editable: true,
+			title: 'Username',
+			dataIndex: 'username',
+			key: 'username',
+			editable: false,
 			inputType: 'text',
 		},
 		{
-			title: 'URL',
-			dataIndex: 'url',
-			key: 'url',
-			editable: true,
+			title: 'First Name',
+			dataIndex: 'first_name',
+			key: 'first_name',
+			editable: false,
 		},
 		{
-			title: 'Social User Name',
-			dataIndex: 'social_user_name',
-			key: 'social_user_name',
-			editable: true,
+			title: 'Last Name',
+			dataIndex: 'last_name',
+			key: 'last_name',
+			editable: false,
 		},
 		{
-			title: 'Actions',
-			width: 180,
-			render: (_: any, record: DataType) => {
-				const editable = isEditing(record);
-				return (
-					<div className="flex flex-row gap-2 w-[180px]">
-						{editable ? (
-							<span className="flex flex-row gap-2 ">
-								<Typography.Link
-									onClick={() => save(record._id)}
-									style={{ marginInlineEnd: 8 }}
-								>
-									Save
-								</Typography.Link>
-								<Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-									<a>Cancel</a>
-								</Popconfirm>
-							</span>
-						) : (
-							<Typography.Link
-								disabled={editingKey !== ''}
-								onClick={() => edit(record)}
-							>
-								Edit
-							</Typography.Link>
-						)}
-						<span className="font-medium cursor-pointer text-red-700">
-							<Popconfirm
-								title="Sure to cancel?"
-								onConfirm={() => deleteRow(record._id)}
-							>
-								<a>Delete</a>
-							</Popconfirm>
-						</span>
-					</div>
-				);
-			},
+			title: 'Mobile Number',
+			dataIndex: 'mobile_number',
+			key: 'mobile_number',
+			editable: false,
+		},
+		{
+			title: 'Referral Code',
+			dataIndex: 'referral_code',
+			key: 'referral_code',
+			editable: false,
+		},
+		{
+			title: 'Status',
+			dataIndex: 'status',
+			key: 'status',
+			editable: false,
+		},
+		{
+			title: 'Total Score',
+			dataIndex: 'total_scores',
+			key: 'total_scores',
+			editable: false,
 		},
 	];
 
-	const mergedColumns: TableProps<DataType>['columns'] = columns.map((col) => {
-		if (!col.editable) {
-			return col;
+	useEffect(() => {
+		if (downloadUsersState?.response) {
+			downloadCSV(downloadUsersState.response);
 		}
-		return {
-			...col,
-			onCell: (record: DataType) => ({
-				record,
-				inputType: col.inputType ? col.inputType : 'text',
-				dataIndex: col.dataIndex,
-				title: col.title,
-				editing: isEditing(record),
-			}),
-		};
-	});
+	}, [downloadUsersState]);
 
 	return (
 		<div className="flex h-screen bg-gray-100">
 			<Sidebar />
 			<div className="flex flex-col p-4 gap-6 w-full h-screen">
-				<Button type="primary" className="w-fit" onClick={showModal}>
-					Add Social
-				</Button>
-				<Modal
-					title="Add Question"
-					open={isModalOpen}
-					onOk={handleOk}
-					onCancel={handleCancel}
-					okButtonProps={{ loading: addSocialtate.isLoading }}
+				<Button
+					type="primary"
+					className="w-fit"
+					onClick={downloadUsers}
+					loading={downloadUsersState?.isLoading}
 				>
-					<Form form={form} component={false}>
-						<Form.Item
-							name="type"
-							style={{ margin: 0, paddingTop: 16 }}
-							rules={[
-								{
-									required: true,
-									message: `Please Input Type!`,
-								},
-							]}
-						>
-							<Input placeholder="Type" />
-						</Form.Item>
-
-						<Form.Item
-							name="url"
-							style={{ margin: 0, paddingTop: 16 }}
-							rules={[
-								{
-									required: true,
-									message: `Please Input URL!`,
-								},
-							]}
-						>
-							<Input placeholder="URL" />
-						</Form.Item>
-						<Form.Item
-							name="social_user_name"
-							style={{ margin: 0, paddingTop: 16 }}
-							rules={[
-								{
-									required: true,
-									message: `Please Input Social User Name!`,
-								},
-							]}
-						>
-							<Input placeholder="Social User Name" />
-						</Form.Item>
-					</Form>
-				</Modal>
-				<Form form={form} component={false}>
-					<Table
-						components={{
-							body: { cell: EditableCell },
-						}}
-						className="w-full h-full p-4"
-						rowClassName="editable-row"
-						dataSource={SocialState?.response ?? []}
-						columns={mergedColumns}
-						pagination={tableParams}
-						loading={SocialState?.isLoading}
-					/>
-				</Form>
+					Download
+				</Button>
+				<Table
+					className="w-full h-full p-4"
+					rowClassName="editable-row"
+					dataSource={usersState?.response ?? []}
+					columns={columns}
+					pagination={tableParams}
+					loading={usersState?.isLoading}
+				/>
 			</div>
 		</div>
 	);
 }
+
+export default withAdminAuth(Users);

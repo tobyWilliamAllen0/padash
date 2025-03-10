@@ -6,6 +6,7 @@ import { setCookie } from 'nookies';
 import Link from 'next/link';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import useFetch from '@/hooks/useFetch';
+import { Input } from 'antd';
 
 export default function Login() {
 	const [username, setUsername] = useState('');
@@ -30,7 +31,7 @@ export default function Login() {
 			});
 
 			// Redirect to dashboard
-			router.push('/admin/dashboard');
+			router.push('/admin/questions');
 		},
 		onError(err: any) {
 			setError(err.message || 'Login failed. Please try again.');
@@ -84,7 +85,7 @@ export default function Login() {
 								Username
 							</label>
 							<div className="mt-1">
-								<input
+								<Input
 									id="username"
 									name="username"
 									type="text"
@@ -92,7 +93,6 @@ export default function Login() {
 									required
 									value={username}
 									onChange={(e) => setUsername(e.target.value)}
-									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 								/>
 							</div>
 						</div>
@@ -105,7 +105,7 @@ export default function Login() {
 								Password
 							</label>
 							<div className="mt-1">
-								<input
+								<Input
 									id="password"
 									name="password"
 									type="password"
@@ -113,34 +113,7 @@ export default function Login() {
 									required
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
-									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 								/>
-							</div>
-						</div>
-
-						<div className="flex items-center justify-between">
-							<div className="flex items-center">
-								<input
-									id="remember-me"
-									name="remember-me"
-									type="checkbox"
-									className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-								/>
-								<label
-									htmlFor="remember-me"
-									className="ml-2 block text-sm text-gray-900"
-								>
-									Remember me
-								</label>
-							</div>
-
-							<div className="text-sm">
-								<a
-									href="#"
-									className="font-medium text-indigo-600 hover:text-indigo-500"
-								>
-									Forgot your password?
-								</a>
 							</div>
 						</div>
 

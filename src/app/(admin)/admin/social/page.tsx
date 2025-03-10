@@ -18,7 +18,7 @@ import {
 	DatePicker,
 } from 'antd';
 import type { TableProps } from 'antd';
-import dayjs from 'dayjs';
+import withAdminAuth from '@/components/withAdminAuth';
 
 interface DataType {
 	active_time: string;
@@ -87,7 +87,7 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
 	);
 };
 
-export default function Social() {
+function Social() {
 	const [tableParams, setTableParams] = useState({
 		current: 1,
 		pageSize: 10,
@@ -322,3 +322,5 @@ export default function Social() {
 		</div>
 	);
 }
+
+export default withAdminAuth(Social);
