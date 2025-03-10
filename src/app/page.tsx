@@ -5,12 +5,17 @@ import { Input } from '@/components/input';
 import StyledPinInput from '@/components/pinInput';
 import useFetch from '@/hooks/useFetch';
 import { ArrowLeft2, Star1 } from 'iconsax-react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { setCookie } from 'nookies';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import Drawer from 'react-bottom-drawer';
 import ScaleLoader from 'react-spinners/ScaleLoader';
+
+const RefCodeReader = dynamic(() => import('@/components/RefCodeReader'), {
+	ssr: false,
+});
 
 const INITIAL_PIN = ['', '', '', '', '', ''];
 
@@ -23,7 +28,6 @@ export default function Home() {
 	const [step, setStep] = useState<1 | 2>(1);
 	const [refCode, setRefCode] = useState<string | null>(null);
 	const [mobilePin, setMobilePin] = useState<string[]>(INITIAL_PIN);
-	const searchParams = useSearchParams(); // Use search params hook
 
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -77,26 +81,12 @@ export default function Home() {
 			});
 		}
 	};
-	const getRefCodeFromUrl = useCallback(() => {
-		// Check for startApp parameter (case sensitive)
-		let code = searchParams.get('startApp');
 
-		// If not found, check for startapp parameter (lowercase)
-		if (!code) {
-			code = searchParams.get('startapp');
-		}
-
+	const handleParamsChange = useCallback((code: string | null) => {
 		if (code) {
-			console.log('Referral code found:', code);
 			setRefCode(code);
-
-			// Store the referral code in localStorage for later use
-			localStorage.setItem('referralCode', code);
-
-			// You might want to include this in your API calls
-			// For example, when submitting phone number
 		}
-	}, [searchParams]);
+	}, []);
 
 	useEffect(() => {
 		const interval = setTimeout(() => {
@@ -104,7 +94,6 @@ export default function Home() {
 				typeof window !== 'undefined' ? (window as any)?.Telegram?.WebApp : {};
 
 			if (app) {
-				getRefCodeFromUrl();
 				console.log(app.initData, 'app.initData');
 				setHash(app.initData);
 
@@ -152,6 +141,9 @@ export default function Home() {
 
 	return (
 		<div className="p-4 overflow-hidden h-screen flex flex-col items-center justify-between">
+			<Suspense fallback={null}>
+				<RefCodeReader setRefCode={setRefCode} />
+			</Suspense>
 			<div className="flex flex-col items-center">
 				<div className="w-[258px] h-[258px] flex items-center justify-center text-4xl">
 					<Image

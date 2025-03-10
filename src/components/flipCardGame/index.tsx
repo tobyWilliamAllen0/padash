@@ -155,7 +155,6 @@ export default function FlipCardGame() {
 									src="/assets/images/logo.png"
 									alt="Logo"
 									width={109}
-
 									height={109}
 									style={{ aspectRatio: '1/1' }}
 									className={status === 'prize' ? 'flex' : 'hidden'}
