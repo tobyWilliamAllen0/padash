@@ -4,7 +4,7 @@ import Button from '@/components/button';
 import { Input } from '@/components/input';
 import StyledPinInput from '@/components/pinInput';
 import useFetch from '@/hooks/useFetch';
-import { ArrowRight2, Star1 } from 'iconsax-react';
+import { ArrowLeft2, Star1 } from 'iconsax-react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { setCookie } from 'nookies';
@@ -16,7 +16,7 @@ const INITIAL_PIN = ['', '', '', '', '', ''];
 
 export default function Home() {
 	const router = useRouter();
-	const [hash, setHash] = useState<string>("");
+	const [hash, setHash] = useState<string>('');
 	const [isVisible, setIsVisible] = useState(false);
 	const [phoneNumber, setPhoneNumber] = useState<string>('');
 	const [step, setStep] = useState<1 | 2>(1);
@@ -162,13 +162,6 @@ export default function Home() {
 				</div>
 				<div className="w-full flex justify-center items-center mt-4 gap-1">
 					<span className="text-lg text-[#808080] text-center font-bold">
-						{userProfileState?.response?.user?.total_scores.toLocaleString(
-							'fa-IR',
-						)}
-					</span>
-					<ArrowRight2 size="18" color="#666666" />
-
-					<span className="text-lg text-[#808080] text-center font-bold">
 						امتیاز شما
 					</span>
 					<Image
@@ -177,6 +170,14 @@ export default function Home() {
 						width={28}
 						height={28}
 					/>
+
+					<ArrowLeft2 size="18" color="#666666" />
+
+					<span className="text-lg text-[#808080] text-center font-bold">
+						{userProfileState?.response?.user?.total_scores.toLocaleString(
+							'fa-IR',
+						)}
+					</span>
 				</div>
 			</div>
 			<div className="pb-[90px] flex flex-col items-center gap-3 w-full">
@@ -185,7 +186,7 @@ export default function Home() {
 					onClick={() => setIsVisible(true)}
 				>
 					<div className="flex flex-row items-center gap-1">
-						<ArrowRight2 size="18" color="#666666" />
+						<Star1 size="18" color="#fcfcfc" variant="Bulk" />
 						<span className="text-base font-bold text-white text-right">
 							ثبت شماره موبایل
 						</span>{' '}
@@ -193,28 +194,28 @@ export default function Home() {
 							(برای شرکت در قرعه کشی)
 						</span>
 					</div>
-					<Star1 size="18" color="#fcfcfc" variant="Bulk" />
+					<ArrowLeft2 size="18" color="#666666" />
 				</div>
 				<div
 					className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] "
 					onClick={() => router.push('https://t.me/padash_sarmayeh')}
 				>
 					<div className="flex flex-row items-center gap-1">
-						<ArrowRight2 size="18" color="#666666" />
+						<Star1 size="18" color="#fcfcfc" variant="Bulk" />
 						<span className="text-base font-bold text-white text-right">
 							کانال تلگرام گروه مالی پاداش
 						</span>
 					</div>
-					<Star1 size="18" color="#fcfcfc" variant="Bulk" />
+					<ArrowLeft2 size="18" color="#666666" />
 				</div>
 				<div className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] ">
 					<div className="flex flex-row items-center gap-1">
-						<ArrowRight2 size="18" color="#666666" />
+						<Star1 size="18" color="#fcfcfc" variant="Bulk" />
 						<span className="text-base font-bold text-white text-right">
 							سوابق امتیازات دریافت شده{' '}
 						</span>
 					</div>
-					<Star1 size="18" color="#fcfcfc" variant="Bulk" />
+					<ArrowLeft2 size="18" color="#666666" />
 				</div>
 			</div>
 
