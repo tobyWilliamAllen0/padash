@@ -94,7 +94,8 @@ export default function Friends() {
 						<div>
 							{' '}
 							<span className="text-xl text-[#5b5b5b] text-right font-bold">
-								شما هنوز از <span className="text-[#fafafa]">هیچکس</span> دعوت نکرده اید.
+								شما هنوز از <span className="text-[#fafafa]">هیچکس</span> دعوت
+								نکرده اید.
 							</span>
 						</div>
 					)}
@@ -133,7 +134,7 @@ export default function Friends() {
 				className="rounded-md bg-[#1f9ee7] text-white font-bold text-lg w-full mt-6 p-2"
 				onClick={() => {
 					copyToClipboard(
-						`https://t.me/padash_sarmayeh?startApp=${refCode}&startapp=${refCode}`,
+						`https://t.me/CampaignPadash_bot?startApp=${refCode}&startapp=${refCode}`,
 					);
 					toast.success('کد معرف شما با موفقیت کپی شد');
 				}}

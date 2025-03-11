@@ -103,6 +103,7 @@ export default function Home() {
 
 	useEffect(() => {
 		if (hash) {
+			console.log(refCode, 'refCode');
 			fetchUserProfile({
 				url: 'user/profile',
 				method: 'POST',
