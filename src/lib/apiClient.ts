@@ -43,7 +43,9 @@ async function ApiClient(path: string, options: any) {
 	const token = userProfile ? JSON.parse(userProfile)?.accessToken : '';
 
 	if (token) {
-		fetchOptions.headers['Authorization'] = 'Bearer ' + token;
+		fetchOptions.headers['Authorization'] =
+			'Bearer ' +
+			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2JjZGI3YWUzY2ZiNzBjOTE1NTU3YjYiLCJ1c2VybmFtZSI6IkFsaXJlemF0YWhhbmkiLCJtb2JpbGVOdW1iZXIiOiIwOTEyNjIxODAwMiIsInJvbGVzIjpbInVzZXIiLCJhZG1pbiJdLCJpYXQiOjE3NDE3MjE0NzEsImV4cCI6MTc0MTgwNzg3MX0.b9b1J9HVo_VHpcrU07XeIdR3XMwDKVGOkwTL__d-Bgs';
 	}
 	if (fetchOptions.type === 'formdata') {
 		fetchOptions.body = new FormData();
@@ -62,6 +64,6 @@ async function ApiClient(path: string, options: any) {
 		fetchOptions.headers['Accept'] = 'application/json';
 	}
 
-	return axios({ url, ...options })
+	return axios({ url, ...options });
 }
 export default ApiClient;

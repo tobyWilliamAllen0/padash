@@ -17,9 +17,9 @@ export const Timer = ({
 	});
 
 	return (
-		<div className="flex items-center justify-end gap-4 mb-6">
-			<span>زمان باقی مانده:</span>
-			<span>
+		<div className="flex items-center justify-end gap-2">
+			<span className="text-sm">زمان باقی مانده:</span>
+			<span className="text-sm">
 				{dayjs
 					.duration({
 						seconds,

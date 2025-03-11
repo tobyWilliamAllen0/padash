@@ -10,11 +10,15 @@ type BoxStatus = 'hidden' | 'prize' | 'bomb';
 
 export default function FlipCardGame() {
 	const [boxes, setBoxes] = useState<BoxStatus[]>([]);
+	const [score, setScore] = useState<number>(0);
 	const [selectedBoxes, setSelectedBoxes] = useState<number[]>([]);
 	const [flippingIndex, setFlippingIndex] = useState<number>();
 	const [answers, setAnswers] = useState<{
 		expiryTime: string | number | Date | any;
-		answers: string[];
+		answers: {
+			answer: number;
+			is_correct: boolean;
+		}[];
 	}>({ expiryTime: null, answers: [] });
 
 	const [answersState, fetchAnswers] = useFetch({
@@ -22,23 +26,38 @@ export default function FlipCardGame() {
 			setAnswers(
 				res as {
 					expiryTime: string | number | Date;
-					answers: string[];
+					answers: {
+						answer: number;
+						is_correct: boolean;
+					}[];
 				},
 			);
 			const response = res as {
 				expiryTime: string | number | Date;
-				answers: string[];
+				answers: {
+					answer: number;
+					is_correct: boolean;
+				}[];
 			};
 			setBoxes(
 				Array(16)
 					.fill('hidden')
-					.map((status, index) => {
-						//@ts-ignore
-						if (response.answers.includes(index)) {
-							return 'prize';
-						} else {
-							return status;
+					.map((_, index) => {
+						// Find the matching answer for this index, if any
+						const matchedAnswer = response.answers.find(
+							(res) => res.answer === index,
+						);
+
+						// Return the appropriate status based on whether we found a match
+						if (matchedAnswer) {
+							if (matchedAnswer.is_correct) {
+								setScore((prev) => prev + 250);
+							}
+							return matchedAnswer.is_correct ? 'prize' : 'bomb';
 						}
+
+						// No match found, keep as hidden
+						return 'hidden';
 					}),
 			);
 		},
@@ -50,23 +69,18 @@ export default function FlipCardGame() {
 				is_correct: boolean;
 				score: number;
 			};
-			setBoxes(
-				Array(16)
-					.fill('hidden')
-					.map((status, index) => {
-						if (index === selectedBoxes[-1]) {
-							if (response?.is_correct) {
-								return 'prize';
-							} else {
-								return 'bomb';
-							}
-						}
+			const lastSelectedIndex = selectedBoxes[selectedBoxes.length - 1];
 
-						return status;
-					}),
+			setBoxes((prevBoxes) =>
+				prevBoxes.map((status, index) =>
+					index === lastSelectedIndex
+						? response?.is_correct
+							? 'prize'
+							: 'bomb'
+						: status,
+				),
 			);
-			// is_correct: false
-			// score: 0
+			setScore((prev) => prev + response.score);
 		},
 	});
 
@@ -78,13 +92,19 @@ export default function FlipCardGame() {
 		setBoxes(
 			Array(16)
 				.fill('hidden')
-				.map((status, index) => {
-					console.log(answers.answers, index);
-					if (answers.answers.includes(index.toString())) {
-						return 'prize';
-					} else {
-						return status;
+				.map((_, index) => {
+					// Find the matching answer for this index, if any
+					const matchedAnswer = answers.answers.find(
+						(res) => res.answer === index,
+					);
+
+					// Return the appropriate status based on whether we found a match
+					if (matchedAnswer) {
+						return matchedAnswer.is_correct ? 'prize' : 'bomb';
 					}
+
+					// No match found, keep as hidden
+					return 'hidden';
 				}),
 		);
 		setSelectedBoxes([]);
@@ -120,12 +140,8 @@ export default function FlipCardGame() {
 				<>
 					<div className="flex flex-row items-center justify-between mb-4">
 						<div>
-							<span className="text-xl ">امتیازات دریافت شده: ‌</span>
-							<span>
-								{Number(
-									validateAnswerState?.response?.score ?? 0,
-								).toLocaleString('fa-IR')}
-							</span>
+							<span className="text-base ">امتیازات دریافت شده: ‌</span>
+							<span>{Number(score).toLocaleString('fa-IR')}</span>
 						</div>
 						<Timer expireTime={answers?.expiryTime} />
 					</div>

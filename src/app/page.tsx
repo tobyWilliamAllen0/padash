@@ -82,12 +82,6 @@ export default function Home() {
 		}
 	};
 
-	const handleParamsChange = useCallback((code: string | null) => {
-		if (code) {
-			setRefCode(code);
-		}
-	}, []);
-
 	useEffect(() => {
 		const interval = setTimeout(() => {
 			const app =

@@ -14,7 +14,7 @@ const Tab: React.FC<TabProps> = ({ tabs }) => {
 					<button
 						key={index}
 						className={`flex items-center justify-center py-2 px-4 basis-1/3 ${
-							activeTab === index ? 'bg-white rounded-lg text-[#151515]' : ''
+							activeTab === index ? 'bg-white rounded-lg text-[#151515]' : 'text-white'
 						}`}
 						onClick={() => setActiveTab(index)}
 					>
