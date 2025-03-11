@@ -94,7 +94,7 @@ export default function Friends() {
 						<div>
 							{' '}
 							<span className="text-xl text-[#5b5b5b] text-right font-bold">
-								شما هنوز از <span className="text-[#fafafa]">هیچکس</span> دعوت
+								شما هنوز از <span className="text-[#fafafa]">شخصی</span> دعوت
 								نکرده اید.
 							</span>
 						</div>
