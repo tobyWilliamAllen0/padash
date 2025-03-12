@@ -28,7 +28,7 @@ export default function Home() {
 	const [isVisible, setIsVisible] = useState(false);
 	const [phoneNumber, setPhoneNumber] = useState<string>('');
 	const [telegramIsActive, setTelegramIsActive] = useState<boolean>(false);
-	const [step, setStep] = useState<1 | 2>(1);
+	const [step, setStep] = useState<1 | 2>(2);
 	const [refCode, setRefCode] = useState<string | null>(null);
 	const [mobilePin, setMobilePin] = useState<string[]>(INITIAL_PIN);
 
@@ -181,27 +181,21 @@ export default function Home() {
 				</div>
 			</div>
 			<div className="pb-[90px] flex flex-col items-center gap-3 w-full">
-				{userProfileState?.response?.user?.mobile_number && (
-					<div
-						className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] "
-						onClick={() =>
-							!userProfileState?.response?.user?.mobile_number
-								? {}
-								: setIsVisible(true)
-						}
-					>
-						<div className="flex flex-row items-center gap-1">
-							<Star1 size="18" color="#fcfcfc" variant="Bulk" />
-							<span className="text-base font-bold text-white text-right">
-								ثبت شماره موبایل
-							</span>{' '}
-							<span className="text-sm text-white pr-1">
-								(برای شرکت در قرعه کشی)
-							</span>
-						</div>
-						<ArrowLeft2 size="18" color="#666666" />
+				<div
+					className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] "
+					onClick={() => setIsVisible(true)}
+				>
+					<div className="flex flex-row items-center gap-1">
+						<Star1 size="18" color="#fcfcfc" variant="Bulk" />
+						<span className="text-base font-bold text-white text-right">
+							ثبت شماره موبایل
+						</span>{' '}
+						<span className="text-sm text-white pr-1">
+							(برای شرکت در قرعه کشی)
+						</span>
 					</div>
-				)}
+					<ArrowLeft2 size="18" color="#666666" />
+				</div>
 				<div
 					className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] "
 					onClick={() => router.push('https://t.me/padash_sarmayeh')}
@@ -230,10 +224,11 @@ export default function Home() {
 			</div>
 
 			<Drawer
-				open={isVisible}
+				open={true}
 				direction="bottom"
 				onClose={onClose}
-				className="!bg-[#171717]"
+				size={500}
+				className="!bg-[#171717] p-6"
 			>
 				{step === 1 && (
 					<div className="w-full h-96 pt-10 flex justify-start items-center flex-col gap-6">
@@ -274,6 +269,7 @@ export default function Home() {
 						<StyledPinInput
 							values={mobilePin}
 							onChange={(_value, _index, values) => setMobilePin(values)}
+							isError={verifyCodeState?.isFailed}
 						/>
 						<Button onClick={handleVerifyPhone}>
 							{verifyCodeState.isLoading ? (

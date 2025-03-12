@@ -22,21 +22,22 @@ const StyledPinInput: React.FC<IProps> = ({
 					containerClassName ?? '',
 				)}
 				inputClassName={classNames(
-					'!bg-glass-layer-light dark:!bg-glass-layer-white-4 rounded-xl !border-[0.5px] dark:!border-[#ffffff1f] !border-[#0000001F]',
+					'rounded-xl !border-[0.5px] !border-[#6d6d6d]',
 					'transition-colors',
-					'focus:!outline-0 focus:!ring-0 focus:!border-b-primaryColor-main',
+					'focus:!outline-0 focus:!ring-0',
 					isError ? '!border-b-[#F03B6B] mb-4' : '',
 					'w-full flex-1 min-w-0 h-full !h-14 ',
 					'rounded-xl',
-					'text-subtitle3 font-ClashGrotesk ',
+					'text-white ',
 				)}
+				placeholder='-'
 				showState={false}
+				validate={/^[0-9]*$/}
+                size="md"
+				autoFocus
+				autoTab
 			/>
-			{isError && (
-				<span className="text-[#F03B6B] ">
-					The Code is wrong
-				</span>
-			)}
+			{isError && <span className="text-[#F03B6B] ">کد اشتباه است</span>}
 		</div>
 	);
 };
