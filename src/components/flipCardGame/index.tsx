@@ -69,8 +69,9 @@ export default function FlipCardGame() {
 				is_correct: boolean;
 				score: number;
 			};
-			const lastSelectedIndex = selectedBoxes[selectedBoxes.length - 1];
-
+			const lastSelectedIndex = selectedBoxes[-1];
+			console.log(lastSelectedIndex, 'lastSelectedIndex')
+			console.log(response, 'response')
 			setBoxes((prevBoxes) =>
 				prevBoxes.map((status, index) =>
 					index === lastSelectedIndex
@@ -123,7 +124,7 @@ export default function FlipCardGame() {
 		});
 		setFlippingIndex(index);
 	};
-
+	console.log(boxes, 'boxes');
 	return (
 		<div className="min-h-screen p-2 pb-20">
 			{answersState.isLoading ? (

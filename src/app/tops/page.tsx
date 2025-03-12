@@ -61,7 +61,9 @@ export default function Tops() {
 					کل شرکت کنندگان
 				</span>
 				<span className="text-base text-white text-center ">
-					{Number(21323657).toLocaleString('fa-IR')}
+					{Number(leaderboardState?.response?.totalCount ?? 0).toLocaleString(
+						'fa-IR',
+					)}
 				</span>
 			</div>
 			<div className="w-full flex justify-between items-center mt-4 bg-[#fff] rounded-lg p-4 h-auto">
