@@ -244,7 +244,7 @@ export default function Home() {
 				direction="bottom"
 				onClose={onClose}
 				size="100vh"
-				className="!bg-[#171717] p-6"
+				className="!bg-[#171717]"
 			>
 				<div
 					className="w-full h-screen flex justify-center items-center"
