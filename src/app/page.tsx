@@ -7,6 +7,7 @@ import useFetch from '@/hooks/useFetch';
 import { ArrowLeft2, Star1 } from 'iconsax-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { setCookie } from 'nookies';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
@@ -206,9 +207,9 @@ export default function Home() {
 							<ArrowLeft2 size="18" color="#666666" />
 						</div>
 					)}
-				<div
+				<Link
 					className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] "
-					onClick={() => router.push('https://t.me/padash_sarmayeh')}
+					href="https://t.me/padash_sarmayeh"
 				>
 					<div className="flex flex-row items-center gap-1">
 						<Star1
@@ -221,7 +222,7 @@ export default function Home() {
 						</span>
 					</div>
 					<ArrowLeft2 size="18" color="#666666" />
-				</div>
+				</Link>
 				<div className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] ">
 					<div className="flex flex-row items-center gap-1">
 						<Star1 size="18" color="#fcfcfc" variant="Bulk" />
