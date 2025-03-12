@@ -61,3 +61,13 @@ body {
   font-family: 'Vazir', sans-serif;
 
 }
+
+.Toastify__toast {
+  font-family: 'Vazir';
+  font-size: 14px;
+
+  border-radius: 4px;
+  margin-bottom: 4px;
+
+  direction: rtl;
+}

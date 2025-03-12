@@ -36,7 +36,12 @@ export default function RootLayout({
 				dir="rtl"
 			>
 				<AntdRegistry>{children}</AntdRegistry>
-				<ToastContainer />
+				<ToastContainer
+					className={'w-[90%] mt-28'}
+					theme="colored"
+					newestOnTop
+					rtl
+				/>
 			</body>
 		</html>
 	);

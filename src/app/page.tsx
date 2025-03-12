@@ -13,6 +13,7 @@ import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
 import ScaleLoader from 'react-spinners/ScaleLoader';
+import { toast } from 'react-toastify';
 
 const RefCodeReader = dynamic(() => import('@/components/RefCodeReader'), {
 	ssr: false,
@@ -50,10 +51,14 @@ export default function Home() {
 	const [submitPhoneNumberState, submitPhoneNumber] = useFetch({
 		onSuccess(res) {
 			setStep(2);
+			toast.success('کد تایید به شماره تلفن شما ارسال شد.');
 		},
 	});
 	const [verifyCodeState, verifyCode] = useFetch({
-		onSuccess(res) {},
+		onSuccess(res) {
+			setIsVisible(false);
+			toast.success('شما با موفقیت ثبت نام کردید.');
+		},
 	});
 
 	const onClose = useCallback(() => {
