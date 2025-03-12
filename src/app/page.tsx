@@ -30,6 +30,7 @@ export default function Home() {
 	const [isVisible, setIsVisible] = useState(false);
 	const [phoneNumber, setPhoneNumber] = useState<string>('');
 	const [telegramIsActive, setTelegramIsActive] = useState<boolean>(false);
+	const [firstTime, setFirstTime] = useState<boolean>(false);
 	const [step, setStep] = useState<1 | 2>(1);
 	const [refCode, setRefCode] = useState<string | null>(null);
 	const [mobilePin, setMobilePin] = useState<string[]>(INITIAL_PIN);
@@ -106,7 +107,7 @@ export default function Home() {
 				});
 			}
 		}, 2000);
-
+		setFirstTime(true);
 		return () => clearTimeout(interval);
 	}, []);
 
@@ -240,7 +241,7 @@ export default function Home() {
 				</div>
 			</div>
 			<Drawer
-				open={Boolean(!hash || !userProfileState.isSucceed)}
+				open={Boolean(firstTime && (!hash || !userProfileState.isSucceed))}
 				direction="bottom"
 				onClose={onClose}
 				size="100vh"
