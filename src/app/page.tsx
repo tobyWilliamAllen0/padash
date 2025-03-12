@@ -146,6 +146,12 @@ export default function Home() {
 		}
 	}, [socialsState]);
 
+	console.log(userProfileState, 'userProfileState');
+	console.log(hash, 'hash');
+	console.log(
+		hash && userProfileState.isSucceed,
+		'hash && userProfileState.isSucceed',
+	);
 	return (
 		<div className="p-4 overflow-hidden h-screen flex flex-col items-center justify-between">
 			<Suspense fallback={null}>
@@ -233,7 +239,26 @@ export default function Home() {
 					<ArrowLeft2 size="18" color="#666666" />
 				</div>
 			</div>
-
+			<Drawer
+				open={Boolean(!hash || !userProfileState.isSucceed)}
+				direction="bottom"
+				onClose={onClose}
+				size="100vh"
+				className="!bg-[#171717] p-6"
+			>
+				<div
+					className="w-full h-screen flex justify-center items-center"
+					style={{ background: 'linear-gradient(0deg, #0a0a0a, #16140c)' }}
+				>
+					<Image
+						src="/assets/images/logo.png"
+						alt="Logo"
+						width={258}
+						height={258}
+						className="splash-screen-logo"
+					/>
+				</div>
+			</Drawer>
 			<Drawer
 				open={isVisible}
 				direction="bottom"
