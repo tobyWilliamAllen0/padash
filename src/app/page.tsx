@@ -7,7 +7,7 @@ import useFetch from '@/hooks/useFetch';
 import { ArrowLeft2, Star1 } from 'iconsax-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { setCookie } from 'nookies';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import Drawer from 'react-modern-drawer';
@@ -28,7 +28,7 @@ export default function Home() {
 	const [isVisible, setIsVisible] = useState(false);
 	const [phoneNumber, setPhoneNumber] = useState<string>('');
 	const [telegramIsActive, setTelegramIsActive] = useState<boolean>(false);
-	const [step, setStep] = useState<1 | 2>(2);
+	const [step, setStep] = useState<1 | 2>(1);
 	const [refCode, setRefCode] = useState<string | null>(null);
 	const [mobilePin, setMobilePin] = useState<string[]>(INITIAL_PIN);
 
@@ -140,7 +140,6 @@ export default function Home() {
 		}
 	}, [socialsState]);
 
-	console.log(userProfileState, 'userProfileState');
 	return (
 		<div className="p-4 overflow-hidden h-screen flex flex-col items-center justify-between">
 			<Suspense fallback={null}>
@@ -181,21 +180,27 @@ export default function Home() {
 				</div>
 			</div>
 			<div className="pb-[90px] flex flex-col items-center gap-3 w-full">
-				<div
-					className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] "
-					onClick={() => setIsVisible(true)}
-				>
-					<div className="flex flex-row items-center gap-1">
-						<Star1 size="18" color="#fcfcfc" variant="Bulk" />
-						<span className="text-base font-bold text-white text-right">
-							ثبت شماره موبایل
-						</span>{' '}
-						<span className="text-sm text-white pr-1">
-							(برای شرکت در قرعه کشی)
-						</span>
-					</div>
-					<ArrowLeft2 size="18" color="#666666" />
-				</div>
+				{userProfileState?.response &&
+					!userProfileState?.response?.user?.mobile_number && (
+						<div
+							className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] "
+							onClick={() =>
+								!userProfileState?.response?.user?.mobile_number &&
+								setIsVisible(true)
+							}
+						>
+							<div className="flex flex-row items-center gap-1">
+								<Star1 size="18" color="#fcfcfc" variant="Bulk" />
+								<span className="text-base font-bold text-white text-right">
+									ثبت شماره موبایل
+								</span>{' '}
+								<span className="text-sm text-white pr-1">
+									(برای شرکت در قرعه کشی)
+								</span>
+							</div>
+							<ArrowLeft2 size="18" color="#666666" />
+						</div>
+					)}
 				<div
 					className="w-[100%] bg-[#151515] rounded-lg flex items-center justify-between p-2 border-[#393939] border-[1px] "
 					onClick={() => router.push('https://t.me/padash_sarmayeh')}
@@ -224,7 +229,7 @@ export default function Home() {
 			</div>
 
 			<Drawer
-				open={true}
+				open={isVisible}
 				direction="bottom"
 				onClose={onClose}
 				size={500}

@@ -30,12 +30,13 @@ const StyledPinInput: React.FC<IProps> = ({
 					'rounded-xl',
 					'text-white ',
 				)}
-				placeholder='-'
+				placeholder="-"
 				showState={false}
 				validate={/^[0-9]*$/}
-                size="md"
+				size="md"
 				autoFocus
 				autoTab
+				inputMode="numeric"
 			/>
 			{isError && <span className="text-[#F03B6B] ">کد اشتباه است</span>}
 		</div>
